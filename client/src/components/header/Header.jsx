@@ -1,33 +1,35 @@
 import "./Header.css"
 
+import { Link } from "react-router-dom";
+
 export default function Header() {
 
   return (
     <header className="site-header">
       <div className="site-title">
         <h1>
-          <a className="home" href="#">
+          <Link className="home" to="/">
             Booklibry
-          </a>
+          </Link>
         </h1>
       </div>
 
       <nav>
         <ul>
           <li>
-            <a href="#">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="#">Books</a>
+            <Link to="/books">Books</Link>
           </li>
           <li>
-            <a href="#">Add Your Book</a>
+            <Link to="#">Add Your Book</Link>
           </li>
           <li>
-            <a href="#">Login</a>
+            <Link to="#">Login</Link>
           </li>
           <li>
-            <a href="#">Register</a>
+            <Link to="#">Register</Link>
           </li>
         </ul>
       </nav>

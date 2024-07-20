@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Playwrite+DK+Uloopet:wght@100..400&display=swap');
 
+
 *{
     margin: 0;
     padding: 0;
@@ -8,8 +9,11 @@
 
 
 
+
 body{
-    background-color: #fff
+    background-color: #fff;
+    height: 100vh;
+    
 }
 
 html{
