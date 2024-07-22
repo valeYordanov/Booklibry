@@ -6,6 +6,12 @@ import Footer from "./components/footer/Footer";
 
 import "./App.css"
 import BookList from "./components/book-list/BookList";
+import AddBook from "./components/book-add/AddBook";
+
+
+
+
+
 
 function App() {
 
@@ -16,6 +22,7 @@ function App() {
      <Routes>
        <Route path="/" element={<Home/>}/>
        <Route path="/books" element={<BookList/>}/>
+       <Route path="/add-book" element={<AddBook/>}/>
      </Routes>
      <Footer/>
     </main>

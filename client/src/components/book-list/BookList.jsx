@@ -1,55 +1,43 @@
-import "./BookList.css"
+import { useState } from "react";
+import "./BookList.css";
 
+import BookListItem from "./book-list-item/BookListItem";
+
+import FirebaseService from "../../services/bookService";
+
+import { useEffect } from "react";
 
 export default function BookList() {
+  const [books, setBook] = useState([]);
+
+  const collectionName = "books";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await FirebaseService.getAll(collectionName);
+
+        setBook(
+          result
+            ? Object.entries(result).map(([id, value]) => ({ id, ...value }))
+            : []
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <section id="book-list">
       <h1>Browse Books</h1>
       <div id="card-area">
         <div className="wrapper">
           <div className="box-area">
-            <div className="box-container">
-              <img
-                src="https://m.media-amazon.com/images/I/71MUiF4iVzL.__AC_SX300_SY300_QL70_FMwebp_.jpg"
-                alt=""
-              />
-              <div className="overlay">
-                <h3>Harry Potter</h3>
-                <p>
-                  J.K.ROwling
-                </p>
-                <a href="#">Get Now</a>
-              </div>
-            </div>
-            <div className="box-container">
-              <img
-                src="https://m.media-amazon.com/images/I/71MUiF4iVzL.__AC_SX300_SY300_QL70_FMwebp_.jpg"
-                alt=""
-              />
-              <div className="overlay">
-                <h3>Harry Potter</h3>
-                <p>
-                  J.K.ROwling
-                </p>
-                <a href="#">Get Now</a>
-              </div>
-            </div>
-            
-            
-            <div className="box-container">
-              <img
-                src="https://www.designforwriters.com/wp-content/uploads/2017/10/design-for-writers-book-cover-tf-2-a-million-to-one.jpg"
-                alt=""
-              />
-              <div className="overlay">
-                <h3>Harry Potter</h3>
-                <p>
-                  J.K.ROwling
-                </p>
-                <a href="#">Get Now</a>
-              </div>
-            </div>
-           
+            {books.map((book) => (
+              <BookListItem key={book.id} {...book} />
+            ))}
           </div>
         </div>
       </div>

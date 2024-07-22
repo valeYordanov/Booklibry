@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Courgette&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Madimi+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Outfit:wght@100..900&family=Satisfy&display=swap");
+
+.form {
+  display: flex;
+  flex-direction: column;
+ justify-content: space-between;
+  gap: 0.5em;
+} 
+.add-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 30em
+} 
+
+.form h1{
+  padding-top: 0.5em;
+  margin-left: 15em;
+  color: gray;
+}
+
+.full-form {
+  /* margin-top: 1em; */
+  display: flex;
+  align-items: center;
+  gap: 2em;
+}
+
+
+
+label {
+  margin-top: 0.5em;
+  color: rgb(214, 201, 128);
+  font-size: 20px;
+}
+
+button {
+  margin-top: 1em;
+}
+
+input {
+  width: 350px;
+  height: 30px;
+}
+
+textarea {
+  resize: none;
+}
+
+button {
+  font-family: "Madimi One";
+  font-size: 16px;
+  font-weight: 400;
+  border-color: transparent;
+  background-color: #000;
+  color: #fff;
+  display: block;
+  width: 200px;
+  height: 50px;
+  margin-bottom: 2em;
+  margin-top: 2em;
+  transition: 0.3s;
+  border-radius: 10px;
+}
+
+button:hover {
+  color: #fff;
+  background-color: #616bd4;;
+  outline: none;
+  border: 1px solid black;
+}
+
+.buttons{
+    display: flex;
+    gap: 10px;
+}

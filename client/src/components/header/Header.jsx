@@ -23,7 +23,7 @@ export default function Header() {
             <Link to="/books">Books</Link>
           </li>
           <li>
-            <Link to="#">Add Your Book</Link>
+            <Link to="/add-book">Add Your Book</Link>
           </li>
           <li>
             <Link to="#">Login</Link>
