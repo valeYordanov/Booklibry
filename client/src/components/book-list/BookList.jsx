@@ -3,7 +3,7 @@ import "./BookList.css";
 
 import BookListItem from "./book-list-item/BookListItem";
 
-import FirebaseService from "../../services/bookService";
+import BookService from "../../services/bookService";
 
 import { useEffect } from "react";
 
@@ -15,7 +15,7 @@ export default function BookList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await FirebaseService.getAll(collectionName);
+        const result = await BookService.getAll(collectionName);
 
         setBook(
           result

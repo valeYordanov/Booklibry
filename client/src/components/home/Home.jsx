@@ -1,3 +1,4 @@
+
 import "./Home.css"
 
 
@@ -10,5 +11,7 @@ export default function Home() {
       <p>Rent,Browse or Upload your favourite book!</p>
       <span className="second">Immerse yourself in different books and explore your imagination</span>
     </div>
+
+    
   );
 }

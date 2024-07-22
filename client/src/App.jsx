@@ -8,7 +8,7 @@ import "./App.css"
 import BookList from "./components/book-list/BookList";
 import AddBook from "./components/book-add/AddBook";
 
-
+import BookDetails from "./components/book-details/BookDetails";
 
 
 
@@ -24,6 +24,7 @@ function App() {
        <Route path="/books" element={<BookList/>}/>
        <Route path="/add-book" element={<AddBook/>}/>
      </Routes>
+     <BookDetails/>
      <Footer/>
     </main>
   </div>;

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "firebase": "^10.12.4"
+    "firebase": "^10.12.4",
+    "react-icons": "^5.2.1"
   }
 }

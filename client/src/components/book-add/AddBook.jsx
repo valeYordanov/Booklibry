@@ -1,6 +1,6 @@
 import "./AddBook.css";
 
-import FirebaseService from "../../services/bookService";
+import BookService from "../../services/bookService";
 
 export default function AddBook() {
   const sumbitHandler = async (e) => {
@@ -9,7 +9,7 @@ export default function AddBook() {
     try {
       const bookData = Object.fromEntries(new FormData(e.currentTarget));
 
-      await FirebaseService.create("books", bookData);
+      await BookService.create("books", bookData);
     } catch (error) {
       console.log(error.massage);
     }
@@ -52,9 +52,9 @@ export default function AddBook() {
           <input type="text" placeholder="Add image URL" name="img" />
 
           <div className="buttons">
-            <button>Add to the collection</button>
+            <button className="add">Add</button>
 
-            <button>Cancel</button>
+            <button className="cancel">Cancel</button>
           </div>
         </form>
       </div>

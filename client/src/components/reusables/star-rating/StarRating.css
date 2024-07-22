@@ -1,0 +1,27 @@
+.rating {
+  text-align: center;
+}
+
+.first {
+  margin-bottom: 20px;
+}
+
+.submit-rating {
+  background-color: rgb(11, 6, 6);
+  color: whitesmoke;
+  display: block;
+  width: 150px;
+  height: 30px;
+  margin-bottom: 2em;
+  margin-top: 2em;
+  margin-left: 0.7em;
+  transition: 0.3s;
+  border-radius: 60px;
+  font-weight: bold;
+}
+
+.submit-rating:hover {
+  background-color: white;
+  color: #000;
+  font-weight: bold;
+}

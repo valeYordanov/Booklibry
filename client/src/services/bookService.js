@@ -3,7 +3,7 @@ import { ref, get, set, update, remove, push} from "firebase/database";
 
 
 
-const FirebaseService = {
+const BookService = {
     getAll: async (collectionName) => {
       try {
         const dbRef = ref(database, collectionName);
@@ -50,4 +50,4 @@ const FirebaseService = {
     }
   };
   
-  export default FirebaseService;
+  export default BookService;
