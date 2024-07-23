@@ -1,5 +1,5 @@
-import { Link, useParams } from "react-router-dom";
-import StarRating from "../../reusables/star-rating/StarRating";
+import { Link } from "react-router-dom";
+
 
 /* eslint-disable react/prop-types */
 export default function BookListItem({

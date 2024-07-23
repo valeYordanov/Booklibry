@@ -35,7 +35,7 @@
     height: 0 auto;
 }
 
-.rent-btn, .edit-btn,.delete-btn{
+.rent-btn, .edit-btn,.delete-btn,.go-back-btn{
     background-color: rgb(11, 6, 6);
   color: whitesmoke;
   display: block;

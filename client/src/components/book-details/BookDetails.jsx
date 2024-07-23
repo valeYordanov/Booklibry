@@ -2,17 +2,15 @@ import { useEffect, useState } from "react";
 
 import "./BookDetails.css";
 import BookService from "../../services/bookService";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import StarRating from "../reusables/star-rating/StarRating";
 
-
-
 export default function BookDetails() {
   const [book, setBook] = useState({});
-  
 
   const { bookId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -20,9 +18,17 @@ export default function BookDetails() {
 
       setBook(result);
     })();
-
-    
   });
+
+  const submitDeleteHandler = async () => {
+    await BookService.delete("/books", bookId);
+    navigate("/books");
+  };
+
+  const submitGoBackHandler = () => {
+    navigate("/books");
+  };
+
   return (
     <section className="book">
       <div className="book-container">
@@ -38,7 +44,7 @@ export default function BookDetails() {
           <h2 className="resume">Resume</h2>
           <p>{book.summary}</p>
 
-          <StarRating totalStars={5} bookId={bookId}/>
+          <StarRating totalStars={5} bookId={bookId} />
         </div>
       </div>
 
@@ -46,7 +52,12 @@ export default function BookDetails() {
         <button className="rent-btn">Rent</button>
 
         <button className="edit-btn">Edit</button>
-        <button className="delete-btn">Delete</button>
+        <button onClick={submitDeleteHandler} className="delete-btn">
+          Delete
+        </button>
+        <button onClick={submitGoBackHandler} className="go-back-btn">
+          Go Back
+        </button>
       </div>
     </section>
   );

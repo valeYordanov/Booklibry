@@ -74,3 +74,7 @@ button:hover {
     display: flex;
     gap: 10px;
 }
+
+span{
+  color: red;
+}

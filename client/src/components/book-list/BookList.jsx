@@ -6,7 +6,7 @@ import BookListItem from "./book-list-item/BookListItem";
 import BookService from "../../services/bookService";
 
 import { useEffect } from "react";
-import StarRating from "../reusables/star-rating/StarRating";
+
 
 export default function BookList() {
   const [books, setBook] = useState([]);
