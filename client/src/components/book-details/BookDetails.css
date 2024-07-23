@@ -3,6 +3,7 @@
     margin-right: 2em;
     display: flex;
     flex-direction: row;
+    margin-top: 2em;
     
     gap: 5em;
 }
@@ -24,11 +25,13 @@
 .special-buttons{
     display: flex;
     justify-content: center;
+    padding-bottom: 2em;
+    margin-left: 20em;
 }
 
 .book-img img{
     border-radius: 20px;
-    width: 500px;
+    width: 400px;
     height: 0 auto;
 }
 
@@ -44,5 +47,6 @@
   transition: 0.3s;
   border-radius: 60px;
   font-weight: bold;
+   
 }
 
