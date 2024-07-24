@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import "./BookDetails.css";
 import BookService from "../../services/bookService";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import StarRating from "../reusables/star-rating/StarRating";
 
@@ -19,6 +19,8 @@ export default function BookDetails() {
       setBook(result);
     })();
   });
+
+  
 
   const submitDeleteHandler = async () => {
     await BookService.delete("/books", bookId);
@@ -51,11 +53,11 @@ export default function BookDetails() {
       <div className="special-buttons">
         <button className="rent-btn">Rent</button>
 
-        <button className="edit-btn">Edit</button>
+        <Link to={`/books/${bookId}/edit`} className="edit-btn">Edit</Link>
         <button onClick={submitDeleteHandler} className="delete-btn">
           Delete
         </button>
-        <button onClick={submitGoBackHandler} className="go-back-btn">
+        <button  onClick={submitGoBackHandler} className="go-back-btn">
           Go Back
         </button>
       </div>

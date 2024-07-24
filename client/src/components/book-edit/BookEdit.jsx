@@ -1,11 +1,11 @@
-import "./AddBook.css";
-
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import BookService from "../../services/bookService";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
-export default function AddBook() {
-  const [formValues, setFormValues] = useState({
+import "./BookEdit.css";
+
+export default function BookEdit() {
+  const [book, setBook] = useState({
     title: "",
     author: "",
     category: "",
@@ -14,18 +14,34 @@ export default function AddBook() {
     summary: "",
   });
 
+  const { bookId } = useParams();
+
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await BookService.getOne(bookId);
+
+        setBook(result);
+      } catch (error) {
+        console.log("Error getting the book" + bookId);
+      }
+    })();
+  }, [bookId]);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setFormValues((prevData) => ({
+    setBook((prevData) => ({
       ...prevData,
       [name]: value,
     }));
 
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: '',
+      [name]: "",
     }));
   };
 
@@ -33,50 +49,54 @@ export default function AddBook() {
     const newErrors = {};
 
     // Basic validation rules
-    if (!formValues.title) newErrors.title = "Title is required!";
-    if (!formValues.author) newErrors.author = "Author is required!";
-    if (!formValues.category) newErrors.category = "Category is required!";
-    if (!formValues.img) newErrors.img = "Image URL is required!";
-    if (!formValues.pages || isNaN(formValues.pages))
+    if (!book.title) newErrors.title = "Title is required!";
+    if (!book.author) newErrors.author = "Author is required!";
+    if (!book.category) newErrors.category = "Category is required!";
+    if (!book.img) newErrors.img = "Image URL is required!";
+    if (!book.pages || isNaN(book.pages))
       newErrors.pages = "Valid number of pages is required!";
 
-    if (!formValues.summary) newErrors.summary = "Summary is required!";
+    if (!book.summary) newErrors.summary = "Summary is required!";
 
     return newErrors;
   };
 
-  const navigate = useNavigate();
-
-
-  const sumbitHandler = async (e) => {
+  const submitEditHandler = async (e) => {
     e.preventDefault();
-    const newErrors = validate();
-    setErrors(newErrors);
+
     try {
+      const newErrors = validate();
+      setErrors(newErrors);
       if (Object.keys(newErrors).length === 0) {
         const bookData = Object.fromEntries(new FormData(e.currentTarget));
 
-        await BookService.create("books", bookData);
-        navigate("/books");
+        await BookService.update("books", bookId, bookData);
+
+        navigate(`/books/${bookId}`);
       }
     } catch (error) {
-      console.log(error.massage);
+      console.log(error);
     }
   };
+
+
+  const cancelClickHandler = () => {
+    navigate(`/books/${bookId}`);
+  } 
 
   return (
     <div className="full-form">
       <div className="form">
-        <h1>Add to the library</h1>
+        <h1>Edit the book</h1>
 
-        <form onSubmit={sumbitHandler} className="add-form">
+        <form onSubmit={submitEditHandler} className="edit-form">
           <label htmlFor="title">Title</label>
           {errors.title && <span>{errors.title}</span>}
           <input
             type="text"
-            placeholder="Add title"
+            placeholder="Edit title"
             name="title"
-            value={formValues.title}
+            value={book.title}
             onChange={handleOnChange}
           />
 
@@ -88,7 +108,7 @@ export default function AddBook() {
             cols="60"
             rows="3"
             placeholder="Add category here..."
-            value={formValues.category}
+            value={book.category}
             onChange={handleOnChange}
           ></textarea>
 
@@ -98,7 +118,7 @@ export default function AddBook() {
             type="text"
             placeholder="Author"
             name="author"
-            value={formValues.author}
+            value={book.author}
             onChange={handleOnChange}
           />
 
@@ -110,7 +130,7 @@ export default function AddBook() {
             cols="60"
             rows="3"
             placeholder="Add summary here..."
-            value={formValues.summary}
+            value={book.summary}
             onChange={handleOnChange}
           ></textarea>
 
@@ -119,7 +139,7 @@ export default function AddBook() {
           <input
             type="number"
             name="pages"
-            value={formValues.pages}
+            value={book.pages}
             onChange={handleOnChange}
           />
 
@@ -129,14 +149,14 @@ export default function AddBook() {
             type="text"
             placeholder="Add image URL"
             name="img"
-            value={formValues.img}
+            value={book.img}
             onChange={handleOnChange}
           />
 
           <div className="buttons">
-            <button className="add">Add</button>
+            <button className="add">Edit</button>
 
-            <button className="cancel">Cancel</button>
+            <button onClick={cancelClickHandler} className="cancel">Cancel</button>
           </div>
         </form>
       </div>

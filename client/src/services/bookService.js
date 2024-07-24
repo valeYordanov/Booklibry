@@ -1,10 +1,11 @@
-import database from "../firebase/firebaseConfig";
+
 import { ref, get, set, update, remove, push } from "firebase/database";
+import { db } from "../firebase/firebaseConfig";
 
 const BookService = {
   getAll: async (collectionName) => {
     try {
-      const dbRef = ref(database, collectionName);
+      const dbRef = ref(db, collectionName);
       const snapshot = await get(dbRef);
       if (snapshot.exists()) {
         return snapshot.val();
@@ -18,7 +19,7 @@ const BookService = {
 
   getOne: async (bookId) => {
     try {
-      const dbRef = ref(database,`books/${bookId}`);
+      const dbRef = ref(db,`books/${bookId}`);
 
       
       const snapshot = await get(dbRef);
@@ -36,7 +37,7 @@ const BookService = {
 
   create: async (collectionName, newData) => {
     try {
-      const dbRef = ref(database, collectionName);
+      const dbRef = ref(db, collectionName);
       const newRef = push(dbRef);
       await set(newRef, newData);
       return { id: newRef.key, ...newData };
@@ -47,7 +48,7 @@ const BookService = {
 
   update: async (collectionName, id, updatedData) => {
     try {
-      const dbRef = ref(database, `${collectionName}/${id}`);
+      const dbRef = ref(db, `${collectionName}/${id}`);
       await update(dbRef, updatedData);
       return { id, ...updatedData };
     } catch (error) {
@@ -57,7 +58,7 @@ const BookService = {
 
   delete: async (collectionName, id) => {
     try {
-      const dbRef = ref(database, `${collectionName}/${id}`);
+      const dbRef = ref(db, `${collectionName}/${id}`);
       await remove(dbRef);
       return id;
     } catch (error) {
