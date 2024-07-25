@@ -1,52 +1,74 @@
-.book-container{
-    margin-left: 2em;
-    margin-right: 2em;
-    display: flex;
-    flex-direction: row;
-    margin-top: 2em;
-    
-    gap: 5em;
+.book-container {
+  margin-left: 2em;
+  margin-right: 2em;
+  display: flex;
+  flex-direction: row;
+  margin-top: 2em;
+
+  gap: 5em;
 }
 
-.book-details{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
+.book-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.book-details h1,h3{
-    padding-bottom: 2em;
+.book-details h1,
+h3 {
+  padding-bottom: 2em;
 }
 
-.book-details h2{
-    padding-bottom: 0.5em;
+.book-details h2 {
+  padding-bottom: 0.5em;
+}
+
+.special-buttons {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2em;
+  margin-left: 20em;
+}
+
+.book-img img {
+  border-radius: 20px;
+  width: 400px;
+  height: 0 auto;
 }
 
 .special-buttons{
     display: flex;
-    justify-content: center;
-    padding-bottom: 2em;
-    margin-left: 20em;
+    gap: 10px;
 }
 
-.book-img img{
-    border-radius: 20px;
-    width: 400px;
-    height: 0 auto;
+.rent-btn,.delete-btn,.edit-btn,.go-back-btn{
+    text-decoration: none;
+    font-family: "Madimi One";
+    font-size: 16px;
+    font-weight: 400;
+    border-color: transparent;
+    background-color: #000;
+    color: #fff;
+    display: block;
+    width: 200px;
+    height: 50px;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    transition: 0.3s;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-.rent-btn, .edit-btn,.delete-btn,.go-back-btn{
-    background-color: rgb(11, 6, 6);
-  color: whitesmoke;
-  display: block;
-  width: 200px;
-  height: 50px;
-  margin-bottom: 2em;
-  margin-top: 2em;
-  margin-left: 0.7em;
-  transition: 0.3s;
-  border-radius: 60px;
-  font-weight: bold;
-   
+.edit-btn:hover{
+    color: #fff;
+  background-color: #616bd4;;
+  outline: none;
+  border: 1px solid black;
 }
+
+.edit-btn{
+    text-align: center;
+    padding-top: 0.8em;
+    cursor: pointer;
+}
+
 

@@ -1,0 +1,50 @@
+.register {
+  background-color: #8f85dc;
+  width: 40%;
+  color: #fff;
+  padding: 10px;
+  margin: 10px 0px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: 1s;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.container-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2em;
+  gap: 1em;
+}
+
+.register-title {
+  color: gray;
+}
+
+.email,
+.password,.username,.country,.tel {
+  width: 40%;
+  margin: 8px 0;
+  padding: 12px 20px;
+  display: flex;
+
+  justify-content: center;
+  border: 2px solid #e4c1c1;
+  box-sizing: border-box;
+}
+.register:hover {
+  background-color: #000;
+}
+
+.login-span {
+  background-color: none;
+  color: #000;
+}
+
+.login-span:hover {
+  background-color: #e1e175;
+  cursor: pointer;
+  color: #000;
+  border-radius: 10px;
+}

@@ -1,9 +1,20 @@
-import "./Header.css"
+import { logout } from "../../services/authService";
+import "./Header.css";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
-
+  const navigate = useNavigate();
+  const logouthandler = async () => {
+    try {
+      
+      await logout();
+      
+      navigate("/login");
+    } catch (error) {
+      error;
+    }
+  };
   return (
     <header className="site-header">
       <div className="site-title">
@@ -26,10 +37,13 @@ export default function Header() {
             <Link to="/add-book">Add Your Book</Link>
           </li>
           <li>
-            <Link to="#">Login</Link>
+            <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="#">Register</Link>
+            <Link to="/register">Register</Link>
+          </li>
+          <li>
+            <Link onClickCapture={logouthandler}>Logout</Link>
           </li>
         </ul>
       </nav>

@@ -64,12 +64,16 @@ export default function AddBook() {
     }
   };
 
+  const goBackHandler = () => {
+    navigate("/")
+  }
+
   return (
     <div className="full-form">
-      <div className="form">
+      <div className="form" >
         <h1>Add to the library</h1>
 
-        <form onSubmit={sumbitHandler} className="add-form">
+        <form  onSubmit={sumbitHandler} className="add-form">
           <label htmlFor="title">Title</label>
           {errors.title && <span>{errors.title}</span>}
           <input
@@ -134,9 +138,9 @@ export default function AddBook() {
           />
 
           <div className="buttons">
-            <button className="add">Add</button>
+            <button  className="add">Add</button>
 
-            <button className="cancel">Cancel</button>
+            <button onClick={goBackHandler} className="cancel">Cancel</button>
           </div>
         </form>
       </div>
