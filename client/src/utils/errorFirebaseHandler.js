@@ -12,6 +12,8 @@ export const handleFirebaseError = (error) => {
       return "Password is too weak.";
     case "auth/network-request-failed":
       return "Network error. Please try again.";
+    case "auth/invalid-credential":
+      return "Password or email doesn't match";
     default:
       return "An unexpected error occurred. Please try again.";
   }

@@ -13,6 +13,8 @@ export default function Login() {
     password: "",
   });
 
+  const [apiError,setApiError] = useState('')
+
   const loginSubmitHandler = async (e) => {
     e.preventDefault();
     const { email, password } = values;
@@ -21,7 +23,7 @@ export default function Login() {
       changeAuthState(user)
       navigate("/");
     } catch (error) {
-      console.log(error.message);
+      setApiError(error.message)
     }
   };
 
@@ -35,7 +37,7 @@ export default function Login() {
     <form onSubmit={loginSubmitHandler} className="login-form">
       <div className="container">
         <h1 className="login-title">Login</h1>
-
+       {apiError && (<div className="apierror">{apiError}</div>)}
         <input
           className="email"
           type="text"

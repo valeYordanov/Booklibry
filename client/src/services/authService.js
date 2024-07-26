@@ -35,12 +35,15 @@ export const register = async (email, password, additionalData) => {
     };
   } catch (error) {
     throw new Error(handleFirebaseError(error));
-    
   }
 };
 
 export const login = async (email, password) => {
-  return await signInWithEmailAndPassword(auth, email, password);
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    throw new Error(handleFirebaseError(error));
+  }
 };
 
 export const logout = async () => {
