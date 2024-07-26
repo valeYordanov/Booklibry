@@ -9,7 +9,7 @@ import {
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { handleFirebaseError } from "../utils/errorFirebaseHandler";
-import { showToast } from "../utils/toaster";
+
 
 export const register = async (email, password, additionalData) => {
   try {
@@ -40,7 +40,20 @@ export const register = async (email, password, additionalData) => {
 
 export const login = async (email, password) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    const token = await getIdToken(user);
+    return {
+      token,
+      uid: user.uid,
+      email: user.email,
+      
+    };
   } catch (error) {
     throw new Error(handleFirebaseError(error));
   }

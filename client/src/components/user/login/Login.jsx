@@ -7,23 +7,23 @@ import AuthContext from "../../../contexts/authContext";
 
 export default function Login() {
   const navigate = useNavigate();
-  const {changeAuthState} = useContext(AuthContext)
+  const { changeAuthState } = useContext(AuthContext);
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
 
-  const [apiError,setApiError] = useState('')
+  const [apiError, setApiError] = useState("");
 
   const loginSubmitHandler = async (e) => {
     e.preventDefault();
     const { email, password } = values;
     try {
       const user = await login(email, password);
-      changeAuthState(user)
+      changeAuthState(user);
       navigate("/");
     } catch (error) {
-      setApiError(error.message)
+      setApiError(error.message);
     }
   };
 
@@ -37,7 +37,7 @@ export default function Login() {
     <form onSubmit={loginSubmitHandler} className="login-form">
       <div className="container">
         <h1 className="login-title">Login</h1>
-       {apiError && (<div className="apierror">{apiError}</div>)}
+        {apiError && <div className="apierror">{apiError}</div>}
         <input
           className="email"
           type="text"
