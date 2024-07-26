@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./Register.css";
 import { register } from "../../../services/authService";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../../contexts/authContext";
+
+// import {ToasterContainer} from 'react-toastify'
 
 export default function Register() {
-  const [values, setValues] = useState({
+  
+  const [formData, setFormData] = useState({
     email: "",
     username: "",
     password: "",
@@ -13,15 +17,16 @@ export default function Register() {
   });
 
   const [errors, setErrors] = useState({});
-
+  const { changeAuthState } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [apiError,setApiError] = useState('')
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
-    setValues((prevData) => ({
-      ...prevData,
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
 
     setErrors((prevErrors) => ({
       ...prevErrors,
@@ -29,82 +34,115 @@ export default function Register() {
     }));
   };
 
-  const validateForErrors = () => {
+  const validate = () => {
     const newErrors = {};
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    }
 
-    if (!values.email) newErrors.email = "Email is required!";
-    if (!values.username) newErrors.username = "Username is required!";
-    if (!values.password) newErrors.password = "Password is required!";
-    if (!values.country) newErrors.country = "Country is required!";
-    if (!values.tel || isNaN(values.tel))
-      newErrors.tel = "Please add a valid number!";
+    if (!formData.username) {
+      newErrors.username = "Username is required";
+    } else if (formData.username.length < 4) {
+      newErrors.username = "Username must be at least 4 characters";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    }
+
+    if (!formData.country) {
+      newErrors.country = "Country is required";
+    }
+
+    if (!formData.tel) {
+      newErrors.tel = "Telephone number is required";
+    }
 
     return newErrors;
   };
-  const submitRegisterHandler = async (e) => {
-    e.preventDefault();
-    const newErrors = validateForErrors();
 
+  const handleSubmit = async (e) => {
+    
+    const newErrors = validate();
     setErrors(newErrors);
+    e.preventDefault();
+    if (Object.keys(newErrors).length === 0) {
+      
+      try {
 
-    try {
-      if (Object.keys(newErrors).length === 0) {
-        const { email, password, ...additionalData } = values;
-        await register(email, password, additionalData);
+        const { email, password, ...additionalData } = formData;
+        const user = await register(email, password, additionalData);
 
         navigate("/");
+
+        changeAuthState(user);
+      } catch (error) {
+        
+        setApiError(error.message)
+        console.log(apiError);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
+
   return (
-    <form onSubmit={submitRegisterHandler} className="register-form">
+    <form onSubmit={handleSubmit} className="register-form">
       <div className="container-form">
         <h1 className="register-title">Register</h1>
-        {errors.email && <span>{errors.email}</span>}
+
+        {apiError && <div className="apierror">{apiError}</div>}
+
+        {errors.email && <div className="error-container">{errors.email}</div>}
         <input
           className="email"
           type="text"
           placeholder="Enter Email..."
           name="email"
-          value={values.email}
+          value={formData.email}
           onChange={changeHandler}
         />
-        {errors.username && <span>{errors.username}</span>}
+        {errors.username && (
+          <div className="error-container">{errors.username}</div>
+        )}
         <input
           className="username"
           type="text"
           placeholder="Enter username..."
           name="username"
-          value={values.username}
+          value={formData.username}
           onChange={changeHandler}
         />
-        {errors.password && <span>{errors.password}</span>}
+        {errors.password && (
+          <div className="error-container">{errors.password}</div>
+        )}
+
         <input
           className="password"
           type="password"
           placeholder="Enter Password..."
           name="password"
-          value={values.password}
+          value={formData.password}
           onChange={changeHandler}
         />
-        {errors.country && <span>{errors.country}</span>}
+        {errors.country && (
+          <div className="error-container">{errors.country}</div>
+        )}
         <input
           className="country"
           type="text"
           placeholder="Enter country..."
           name="country"
-          value={values.country}
+          value={formData.country}
           onChange={changeHandler}
         />
-        {errors.tel && <span>{errors.tel}</span>}
+        {errors.tel && <div className="error-container">{errors.tel}</div>}
         <input
           className="tel"
           type="text"
           placeholder="Enter number..."
           name="tel"
-          value={values.tel}
+          value={formData.tel}
           onChange={changeHandler}
         />
 

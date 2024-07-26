@@ -5,18 +5,38 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged as firebaseOnAuthStateChanged,
+  getIdToken,
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
+import { handleFirebaseError } from "../utils/errorFirebaseHandler";
+import { showToast } from "../utils/toaster";
 
 export const register = async (email, password, additionalData) => {
-  return createUserWithEmailAndPassword(auth, email, password).then(
-    (userCredential) => {
-      return set(ref(db, "users/" + userCredential.user.uid), {
-        email,
-        ...additionalData,
-      });
-    }
-  );
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    const token = await getIdToken(user);
+
+    await set(ref(db, "users/" + user.uid), {
+      email,
+      ...additionalData,
+    });
+
+    return {
+      token,
+      uid: user.uid,
+      email: user.email,
+      username: additionalData.username,
+    };
+  } catch (error) {
+    throw new Error(handleFirebaseError(error));
+    
+  }
 };
 
 export const login = async (email, password) => {

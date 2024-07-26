@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./Login.css";
 
 import { login } from "../../../services/authService";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../../contexts/authContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const {changeAuthState} = useContext(AuthContext)
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -15,7 +17,8 @@ export default function Login() {
     e.preventDefault();
     const { email, password } = values;
     try {
-      await login(email, password);
+      const user = await login(email, password);
+      changeAuthState(user)
       navigate("/");
     } catch (error) {
       console.log(error.message);

@@ -23,7 +23,10 @@
 }
 
 .email,
-.password,.username,.country,.tel {
+.password,
+.username,
+.country,
+.tel {
   width: 40%;
   margin: 8px 0;
   padding: 12px 20px;
@@ -47,4 +50,12 @@
   cursor: pointer;
   color: #000;
   border-radius: 10px;
+}
+
+.apierror {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px;
+  width: 40%;
+  background-color: rgb(233, 138, 138);
 }

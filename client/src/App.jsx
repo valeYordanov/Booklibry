@@ -12,18 +12,14 @@ import BookDetails from "./components/book-details/BookDetails";
 import BookEdit from "./components/book-edit/BookEdit";
 import Login from "./components/user/login/Login";
 import Register from "./components/user/register/Register";
-import { useState } from "react";
+import { AuthProvider } from "./contexts/authContext";
 
-import AuthContext from "./contexts/authContext";
-import Logout from "./components/user/logout/Logout";
+
+
 
 function App() {
-  const [auth, setAuth] = useState({});
-
-  
-
   return (
-    <AuthContext.Provider>
+    <AuthProvider>
       <div className="box">
         <Header />
         <main id="main-content">
@@ -35,13 +31,13 @@ function App() {
             <Route path="/add-book" element={<AddBook />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
           </Routes>
 
           <Footer />
         </main>
+        
       </div>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 
