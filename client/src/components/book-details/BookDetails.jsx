@@ -56,7 +56,9 @@ export default function BookDetails() {
           <h2 className="resume">Resume</h2>
           <p>{book.summary}</p>
 
-          <StarRating totalStars={5} bookId={bookId} />
+          {authState.isAuthenticated && (
+            <StarRating totalStars={5} bookId={bookId} bookTitle={book.title} />
+          )}
         </div>
       </div>
 

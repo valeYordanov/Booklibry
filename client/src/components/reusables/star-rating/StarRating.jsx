@@ -1,91 +1,87 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-key */
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import "./StarRating.css";
 
-import { get, ref, update } from "firebase/database";
+import {
+  fetchRatingForBookByUser,
+  submitRating,
+} from "../../../services/ratingService";
+import AuthContext from "../../../contexts/authContext";
 
-import { useParams } from "react-router-dom";
-import { db } from "../../../firebase/firebaseConfig";
+const StarRating = ({ totalStars = 5, bookTitle }) => {
+  const [rating, setRatingState] = useState(null); // Current rating from the database
+  const [hoverRating, setHoverRating] = useState(null); // Rating being hovered over
+  const [isRatingFrozen, setIsRatingFrozen] = useState(false); // Whether the rating is frozen
 
-const StarRating = ({ totalStars = 5 }) => {
-  const [rating, setRatingState] = useState(0);
-  const [isRatingFrozen, setIsRatingFrozen] = useState(false);
+  const { authState } = useContext(AuthContext);
+  const userId = authState.uid;
 
-  const { bookId } = useParams();
-
+  // Function to handle rating submission
   const handleRating = async (ratingValue) => {
-    if (isRatingFrozen) return;
-    setRatingState(ratingValue);
     try {
-      const bookRef = ref(db, `books/${bookId}`);
-      await update(bookRef, {
-        rating: ratingValue,
-      });
-
-      setIsRatingFrozen(true);
-    } catch (e) {
-      console.error("Error adding rating: ", e);
+      await submitRating(bookTitle, userId, ratingValue, Date.now());
+      setRatingState(ratingValue); // Update the local state with the new rating
+      setIsRatingFrozen(true); // Freeze the stars after rating
+    } catch (error) {
+      console.error("Error submitting rating:", error);
     }
   };
 
   useEffect(() => {
     const fetchRating = async () => {
-      const itemRef = ref(db, `books/${bookId}/rating`);
       try {
-        const snapshot = await get(itemRef);
-        if (snapshot.exists()) {
-          const ratingValue = snapshot.val();
-
-          setRatingState(ratingValue);
-          setIsRatingFrozen(true);
+        const result = await fetchRatingForBookByUser(bookTitle, userId);
+        if (result) {
+          setRatingState(result.rating); // Extract rating value from result
+          setIsRatingFrozen(true); // Set isRatingFrozen based on fetched rating
         }
       } catch (error) {
-        console.error("Error fetching rating: ", error);
+        console.error("Error fetching rating:", error);
       }
     };
-    fetchRating(bookId);
-  }, [bookId]);
+
+    fetchRating();
+  }, [bookTitle, userId]);
+
+  // Function to render stars based on the current rating and hover rating
+  const renderStars = () => {
+    let stars = [];
+    for (let i = 1; i <= totalStars; i++) {
+      stars.push(
+        <span
+          key={i}
+          style={{
+            cursor: isRatingFrozen ? "pointer" : "pointer",
+            color: i <= (hoverRating || rating) ? "gold" : "gray",
+            fontSize: "24px",
+            transition: "color 0.2s", // Smooth transition for color change
+          }}
+          onMouseEnter={() => !isRatingFrozen && setHoverRating(i)}
+          onMouseLeave={() => !isRatingFrozen && setHoverRating(null)}
+          onClick={() => {
+            if (!isRatingFrozen || i !== rating) {
+              handleRating(i);
+            }
+          }}
+        >
+          &#9733; {/* Star character */}
+        </span>
+      );
+    }
+    return stars;
+  };
 
   return (
     <div>
-      {[...Array(totalStars)].map((star, index) => {
-        const ratingValue = index + 1;
-
-        return (
-          <label key={index}>
-            <input
-              type="radio"
-              name="rating"
-              value={ratingValue}
-              onClick={() => handleRating(ratingValue)}
-              style={{ display: "none" }}
-              disabled={isRatingFrozen}
-            />
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill={ratingValue <= rating ? "#ffc107" : "#e4e5e9"}
-              xmlns="http://www.w3.org/2000/svg"
-              onMouseEnter={() =>
-                !isRatingFrozen && setRatingState(ratingValue)
-              }
-              onMouseLeave={() => !isRatingFrozen && setRatingState(0)}
-              style={{ cursor: isRatingFrozen ? "default" : "pointer" }}
-            >
-              <path d="M12 .587l3.668 7.431L24 9.587l-6 5.847 1.42 8.284L12 18.897l-7.42 4.82L6 15.434l-6-5.847 8.332-1.569L12 .587z" />
-            </svg>
-          </label>
-        );
-      })}
-      <div>
-        <p>
-          Rating: {rating}/{totalStars}
-        </p>
-      </div>
+      <h2>Rate this Book</h2>
+      <div>{renderStars()}</div>
+      <p>
+        Your Rating: {rating !== null ? `${rating} stars` : "Not rated yet"}
+      </p>
     </div>
   );
 };
+
 export default StarRating;

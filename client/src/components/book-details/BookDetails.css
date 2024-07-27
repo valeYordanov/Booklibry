@@ -8,6 +8,15 @@
   gap: 5em;
 }
 
+.book{
+  display: flex;
+  flex-direction: column;
+}
+
+.resume{
+  color: #616bd4;
+}
+
 .book-details {
   display: flex;
   flex-direction: column;
@@ -35,40 +44,42 @@ h3 {
   height: 0 auto;
 }
 
-.special-buttons{
-    display: flex;
-    gap: 10px;
+.special-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
-.rent-btn,.delete-btn,.edit-btn,.go-back-btn{
-    text-decoration: none;
-    font-family: "Madimi One";
-    font-size: 16px;
-    font-weight: 400;
-    border-color: transparent;
-    background-color: #000;
-    color: #fff;
-    display: block;
-    width: 200px;
-    height: 50px;
-    margin-bottom: 2em;
-    margin-top: 2em;
-    transition: 0.3s;
-    border-radius: 10px;
-    cursor: pointer;
+.rent-btn,
+.delete-btn,
+.edit-btn,
+.go-back-btn {
+  text-decoration: none;
+  font-family: "Madimi One";
+  font-size: 16px;
+  font-weight: 400;
+  border-color: transparent;
+  background-color: #000;
+  color: #fff;
+  display: block;
+  width: 200px;
+  height: 50px;
+  margin-bottom: 2em;
+  margin-top: 2em;
+  transition: 0.3s;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-.edit-btn:hover{
-    color: #fff;
-  background-color: #616bd4;;
+.edit-btn:hover {
+  color: #fff;
+  background-color: #616bd4;
   outline: none;
   border: 1px solid black;
 }
 
-.edit-btn{
-    text-align: center;
-    padding-top: 0.8em;
-    cursor: pointer;
+.edit-btn {
+  text-align: center;
+  padding-top: 0.8em;
+  cursor: pointer;
 }
-
-
