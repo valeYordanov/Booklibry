@@ -4,6 +4,7 @@ import "./Login.css";
 import { login } from "../../../services/authService";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../../contexts/authContext";
+import { auth } from "../../../firebase/firebaseConfig";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -16,11 +17,16 @@ export default function Login() {
   const [apiError, setApiError] = useState("");
 
   const loginSubmitHandler = async (e) => {
+    setApiError("");
     e.preventDefault();
     const { email, password } = values;
     try {
       const user = await login(email, password);
-      changeAuthState(user);
+      changeAuthState({
+        uid: user.uid,
+        email: user.email,
+      });
+      localStorage.setItem("token", user.token);
       navigate("/");
     } catch (error) {
       setApiError(error.message);
@@ -32,6 +38,8 @@ export default function Login() {
       ...state,
       [e.target.name]: e.target.value,
     }));
+
+    setApiError("");
   };
   return (
     <form onSubmit={loginSubmitHandler} className="login-form">

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
@@ -10,24 +10,38 @@ export const AuthProvider = ({ children }) => {
     username: null,
   });
 
+  useEffect(() => {
+    const storedState = localStorage.getItem("authState");
+    if (storedState) {
+      setAuthState(JSON.parse(storedState));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("authState", JSON.stringify(authState));
+  }, [authState]);
+
   const changeAuthState = (user) => {
-    setAuthState({
+    const newState = {
       isAuthenticated: true,
       token: user.token,
       uid: user.uid,
       email: user.email,
       username: user.username,
-    });
+    };
+    setAuthState(newState);
   };
 
   const changeAuthStatetoLogout = () => {
-    setAuthState({
+    const newState = {
       isAuthenticated: false,
       token: null,
       uid: null,
       email: null,
       username: null,
-    });
+    };
+    setAuthState(newState);
+    localStorage.removeItem("authState");
   };
   return (
     <AuthContext.Provider

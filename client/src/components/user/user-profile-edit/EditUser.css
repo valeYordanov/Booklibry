@@ -1,0 +1,50 @@
+.profile-details-edit {
+  display: flex;
+
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.edit-title {
+  background-color: #fff;
+  color: gray;
+}
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.update-profile ,.go-back{
+    font-weight: bold;
+  display: block;
+  border: 1px solid black;
+  padding: 10px;
+  width: 200px;
+  height: 50x;
+  border: none;
+  border-radius: 10px;
+  background-color: black;
+  cursor: pointer;
+  color: white;
+  margin-top: 3em;
+}
+
+.profile-buttons{
+    display: flex;
+    gap: 2em;
+    width: 300px;
+    flex-direction: row;
+    justify-content: center;
+    
+}
+
+.update-profile:hover , .go-back:hover{
+    background-color: rgb(130, 149, 214);
+    border: transparent;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+
+
+

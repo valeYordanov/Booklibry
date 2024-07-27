@@ -13,6 +13,8 @@ import BookEdit from "./components/book-edit/BookEdit";
 import Login from "./components/user/login/Login";
 import Register from "./components/user/register/Register";
 import { AuthProvider } from "./contexts/authContext";
+import UserProfile from "./components/user/user-profile/UserProfile";
+import EditUser from "./components/user/user-profile-edit/EditUser";
 
 
 
@@ -31,6 +33,8 @@ function App() {
             <Route path="/add-book" element={<AddBook />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/user-profile/:userId" element={<UserProfile />} />
+            <Route path="/user-profile/:userId/edit" element={<EditUser />} />
           </Routes>
 
           <Footer />

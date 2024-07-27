@@ -1,7 +1,7 @@
-
 import { ref, get, set, update, remove, push } from "firebase/database";
-import { db } from "../firebase/firebaseConfig";
+import { auth, db } from "../firebase/firebaseConfig";
 
+const user = auth.currentUser;
 const BookService = {
   getAll: async (collectionName) => {
     try {
@@ -19,9 +19,8 @@ const BookService = {
 
   getOne: async (bookId) => {
     try {
-      const dbRef = ref(db,`books/${bookId}`);
+      const dbRef = ref(db, `books/${bookId}`);
 
-      
       const snapshot = await get(dbRef);
 
       if (snapshot.exists()) {
@@ -30,17 +29,17 @@ const BookService = {
         return [];
       }
     } catch (error) {
-        
       throw new Error("Error getting data: " + error.massage);
     }
   },
 
-  create: async (collectionName, newData) => {
+  create: async (collectionName, newData,userId) => {
     try {
       const dbRef = ref(db, collectionName);
       const newRef = push(dbRef);
-      await set(newRef, newData);
-      return { id: newRef.key, ...newData };
+      const dataWithUserId = { ...newData, userId };
+      await set(newRef, dataWithUserId);
+      return { id: newRef.key, ...dataWithUserId};
     } catch (error) {
       throw new Error("Error adding data: " + error.message);
     }

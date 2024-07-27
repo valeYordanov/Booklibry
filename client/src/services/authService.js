@@ -4,12 +4,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged as firebaseOnAuthStateChanged,
   getIdToken,
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { handleFirebaseError } from "../utils/errorFirebaseHandler";
-
 
 export const register = async (email, password, additionalData) => {
   try {
@@ -31,7 +29,7 @@ export const register = async (email, password, additionalData) => {
       token,
       uid: user.uid,
       email: user.email,
-      username: additionalData.username,
+      
     };
   } catch (error) {
     throw new Error(handleFirebaseError(error));
@@ -52,7 +50,6 @@ export const login = async (email, password) => {
       token,
       uid: user.uid,
       email: user.email,
-      
     };
   } catch (error) {
     throw new Error(handleFirebaseError(error));
@@ -67,14 +64,4 @@ export const logout = async () => {
   } catch (error) {
     console.log(error);
   }
-};
-
-export const onAuthStateChanged = (callback) => {
-  return firebaseOnAuthStateChanged(auth, callback);
-};
-
-export const getUserData = (uid) => {
-  return ref(db, "users/" + uid)
-    .once("value")
-    .then((snapshot) => snapshot.val());
 };

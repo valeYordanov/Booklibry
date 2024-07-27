@@ -2,7 +2,8 @@ import "./AddBook.css";
 
 import BookService from "../../services/bookService";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import AuthContext from "../../contexts/authContext";
 
 export default function AddBook() {
   const [formValues, setFormValues] = useState({
@@ -13,6 +14,8 @@ export default function AddBook() {
     pages: "",
     summary: "",
   });
+
+  const { authState } = useContext(AuthContext);
 
   const [errors, setErrors] = useState({});
 
@@ -25,7 +28,7 @@ export default function AddBook() {
 
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: '',
+      [name]: "",
     }));
   };
 
@@ -47,16 +50,19 @@ export default function AddBook() {
 
   const navigate = useNavigate();
 
-
   const sumbitHandler = async (e) => {
     e.preventDefault();
     const newErrors = validate();
     setErrors(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
-        const bookData = Object.fromEntries(new FormData(e.currentTarget));
+        const result = await BookService.create(
+          "books",
+          formValues,
+          authState.uid
+        );
 
-        await BookService.create("books", bookData);
+        console.log(result);
         navigate("/books");
       }
     } catch (error) {
@@ -65,15 +71,15 @@ export default function AddBook() {
   };
 
   const goBackHandler = () => {
-    navigate("/")
-  }
+    navigate("/");
+  };
 
   return (
     <div className="full-form">
-      <div className="form" >
+      <div className="form">
         <h1>Add to the library</h1>
 
-        <form  onSubmit={sumbitHandler} className="add-form">
+        <form onSubmit={sumbitHandler} className="add-form">
           <label htmlFor="title">Title</label>
           {errors.title && <span>{errors.title}</span>}
           <input
@@ -138,9 +144,11 @@ export default function AddBook() {
           />
 
           <div className="buttons">
-            <button  className="add">Add</button>
+            <button className="add">Add</button>
 
-            <button onClick={goBackHandler} className="cancel">Cancel</button>
+            <button onClick={goBackHandler} className="cancel">
+              Cancel
+            </button>
           </div>
         </form>
       </div>

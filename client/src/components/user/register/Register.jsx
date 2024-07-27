@@ -7,7 +7,6 @@ import AuthContext from "../../../contexts/authContext";
 // import {ToasterContainer} from 'react-toastify'
 
 export default function Register() {
-  
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -19,7 +18,7 @@ export default function Register() {
   const [errors, setErrors] = useState({});
   const { changeAuthState } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [apiError,setApiError] = useState('')
+  const [apiError, setApiError] = useState("");
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -32,6 +31,8 @@ export default function Register() {
       ...prevErrors,
       [name]: "",
     }));
+
+    setApiError("");
   };
 
   const validate = () => {
@@ -64,23 +65,25 @@ export default function Register() {
   };
 
   const handleSubmit = async (e) => {
-    
     const newErrors = validate();
     setErrors(newErrors);
     e.preventDefault();
+    setApiError("");
     if (Object.keys(newErrors).length === 0) {
-      
       try {
-
         const { email, password, ...additionalData } = formData;
         const user = await register(email, password, additionalData);
 
-        navigate("/");
+        changeAuthState({
+          uid: user.uid,
+          email: user.email,
+          
+        });
 
-        changeAuthState(user);
+        localStorage.setItem("token", user.token);
+        navigate("/");
       } catch (error) {
-        
-        setApiError(error.message)
+        setApiError(error.message);
         console.log(apiError);
       }
     }
