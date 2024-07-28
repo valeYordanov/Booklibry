@@ -13,6 +13,7 @@ export default function AddBook() {
     img: "",
     pages: "",
     summary: "",
+    isRented:false
   });
 
   const { authState } = useContext(AuthContext);
@@ -24,6 +25,7 @@ export default function AddBook() {
     setFormValues((prevData) => ({
       ...prevData,
       [name]: value,
+      isRented:false
     }));
 
     setErrors((prevErrors) => ({

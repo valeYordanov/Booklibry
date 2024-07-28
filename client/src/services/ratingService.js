@@ -1,4 +1,4 @@
-import { get, ref, set } from "firebase/database";
+import { get, ref, remove, set } from "firebase/database";
 import { db } from "../firebase/firebaseConfig";
 
 export const submitRating = async (bookTitle, userId, rating) => {
@@ -37,5 +37,16 @@ export const fetchRatingForBookByUser = async (bookTitle, userId) => {
   } catch (error) {
     // Handle errors and throw a new error message
     throw new Error("Error fetching rating: " + error.message);
+  }
+};
+
+export const deleteRatingByBookTitle = async (bookTitle) => {
+  try {
+    const dbRef = ref(db, `ratings/${bookTitle}`);
+    await remove(dbRef);
+    console.log("Ratings for book deleted successfully.");
+    return bookTitle;
+  } catch (error) {
+    console.error("Error deleting ratings:", error);
   }
 };

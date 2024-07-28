@@ -7,6 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import StarRating from "../reusables/star-rating/StarRating";
 
 import AuthContext from "../../contexts/authContext";
+import { deleteRatingByBookTitle } from "../../services/ratingService";
 
 export default function BookDetails() {
   const [book, setBook] = useState({});
@@ -14,7 +15,10 @@ export default function BookDetails() {
   const { bookId } = useParams();
   const navigate = useNavigate();
 
+  const [isUnavailable, setIsUnavailabe] = useState(false);
+
   const { authState } = useContext(AuthContext);
+  const isAuthenticated = authState.isAuthenticated;
 
   let isOwner = useRef(false);
 
@@ -23,6 +27,7 @@ export default function BookDetails() {
       const result = await BookService.getOne(bookId);
 
       setBook(result);
+      setIsUnavailabe(book.isRented || false);
 
       if (authState.uid === result.userId) {
         isOwner.current = true;
@@ -34,11 +39,27 @@ export default function BookDetails() {
 
   const submitDeleteHandler = async () => {
     await BookService.delete("/books", bookId);
+
+    await deleteRatingByBookTitle(book.title);
+
     navigate("/books");
   };
 
   const submitGoBackHandler = () => {
     navigate("/books");
+  };
+
+  const rentHandler = async () => {
+    try {
+      const res = await BookService.update("books", bookId, {
+        isRented: true,
+      });
+      setBook(res);
+
+      setIsUnavailabe(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -56,14 +77,22 @@ export default function BookDetails() {
           <h2 className="resume">Resume</h2>
           <p>{book.summary}</p>
 
-          {authState.isAuthenticated && (
+          {isAuthenticated && !isOwner.current ? (
             <StarRating totalStars={5} bookId={bookId} bookTitle={book.title} />
+          ) : null}
+          {!isAuthenticated && (
+            <p>You need to be logged in to see and rate this book.</p>
           )}
         </div>
       </div>
 
       <div className="special-buttons">
-        <button className="rent-btn">Rent</button>
+        {!isUnavailable && (
+          <button onClick={rentHandler} className="rent-btn">
+            Rent
+          </button>
+        )}
+
         {isOwner.current && (
           <Link to={`/books/${bookId}/edit`} className="edit-btn">
             Edit

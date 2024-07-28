@@ -65,6 +65,7 @@
   color: #262626;
   text-decoration: none;
   font-size: 14px;
+  font-weight: bold;
   background: #fff;
   border-radius: 50px;
   text-align: center;
@@ -83,4 +84,23 @@
   margin-top: 0.5em;
   font-size: 45px;
   color: gray
+}
+
+.can-rent{
+  padding-bottom: 2em;
+  color:#000;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: white;
+  height: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  border-radius: 20px;
+  margin-bottom: 2em;
+  
+}
+
+.box-container.rented {
+  filter:brightness(25%)
 }
