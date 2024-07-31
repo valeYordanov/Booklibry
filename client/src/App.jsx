@@ -16,9 +16,8 @@ import { AuthProvider } from "./contexts/authContext";
 import UserProfile from "./components/user/user-profile/UserProfile";
 import EditUser from "./components/user/user-profile-edit/EditUser";
 import AuthGuard from "./components/guards/AuthGuard";
-
-
-
+import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
+import NotFound from "./components/not-found/NotFound";
 
 function App() {
   return (
@@ -26,21 +25,51 @@ function App() {
       <div className="box">
         <Header />
         <main id="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/books" element={<BookList />} />
-            <Route path="/books/:bookId" element={<BookDetails />} />
-            <Route path="/books/:bookId/edit" element={<AuthGuard><BookEdit /> <AuthGuard/></AuthGuard>} />
-            <Route path="/add-book" element={<AuthGuard><AddBook /></AuthGuard>} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/user-profile/:userId" element={<AuthGuard><UserProfile /></AuthGuard>} />
-            <Route path="/user-profile/:userId/edit" element={<AuthGuard><EditUser /></AuthGuard>} />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/books" element={<BookList />} />
+              <Route path="/books/:bookId" element={<BookDetails />} />
+              <Route
+                path="/books/:bookId/edit"
+                element={
+                  <AuthGuard>
+                    <BookEdit /> <AuthGuard />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/add-book"
+                element={
+                  <AuthGuard>
+                    <AddBook />
+                  </AuthGuard>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/user-profile/:userId"
+                element={
+                  <AuthGuard>
+                    <UserProfile />
+                  </AuthGuard>
+                }
+              />
+              <Route
+                path="/user-profile/:userId/edit"
+                element={
+                  <AuthGuard>
+                    <EditUser />
+                  </AuthGuard>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ErrorBoundary>
 
           <Footer />
         </main>
-        
       </div>
     </AuthProvider>
   );
