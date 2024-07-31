@@ -30,41 +30,21 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/books" element={<BookList />} />
               <Route path="/books/:bookId" element={<BookDetails />} />
-              <Route
-                path="/books/:bookId/edit"
-                element={
-                  <AuthGuard>
-                    <BookEdit /> <AuthGuard />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/add-book"
-                element={
-                  <AuthGuard>
-                    <AddBook />
-                  </AuthGuard>
-                }
-              />
+
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route
-                path="/user-profile/:userId"
-                element={
-                  <AuthGuard>
-                    <UserProfile />
-                  </AuthGuard>
-                }
-              />
-              <Route
-                path="/user-profile/:userId/edit"
-                element={
-                  <AuthGuard>
-                    <EditUser />
-                  </AuthGuard>
-                }
-              />
+
               <Route path="*" element={<NotFound />} />
+
+              <Route element={<AuthGuard />}>
+                <Route path="/add-book" element={<AddBook />} />
+                <Route path="/user-profile/:userId" element={<UserProfile />} />
+                <Route path="/books/:bookId/edit" element={<BookEdit />} />
+                <Route
+                  path="/user-profile/:userId/edit"
+                  element={<EditUser />}
+                />
+              </Route>
             </Routes>
           </ErrorBoundary>
 

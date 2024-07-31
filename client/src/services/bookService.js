@@ -1,7 +1,7 @@
 import { ref, get, set, update, remove, push } from "firebase/database";
-import { auth, db } from "../firebase/firebaseConfig";
+import { db } from "../firebase/firebaseConfig";
 
-const user = auth.currentUser;
+
 const BookService = {
   getAll: async (collectionName) => {
     try {

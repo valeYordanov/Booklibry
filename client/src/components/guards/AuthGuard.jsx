@@ -1,13 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import AuthContext from "../../contexts/authContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-export default function AuthGuard(props) {
-  const { isAuthenticated } = useContext(AuthContext);
+export default function AuthGuard() {
+  const {authState} = useContext(AuthContext);
 
-  if (!isAuthenticated) {
+  if (!authState.isAuthenticated) {
     return <Navigate to="/login" />;
   }
-  return <>{props.children}</>;
+  return <Outlet></Outlet>
 }
