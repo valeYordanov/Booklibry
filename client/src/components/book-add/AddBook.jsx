@@ -13,7 +13,7 @@ export default function AddBook() {
     img: "",
     pages: "",
     summary: "",
-    isRented:false
+    isRented: false,
   });
 
   const { authState } = useContext(AuthContext);
@@ -25,7 +25,7 @@ export default function AddBook() {
     setFormValues((prevData) => ({
       ...prevData,
       [name]: value,
-      isRented:false
+      isRented: false,
     }));
 
     setErrors((prevErrors) => ({
@@ -58,13 +58,8 @@ export default function AddBook() {
     setErrors(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
-        const result = await BookService.create(
-          "books",
-          formValues,
-          authState.uid
-        );
+        await BookService.create("books", formValues, authState.uid);
 
-        console.log(result);
         navigate("/books");
       }
     } catch (error) {

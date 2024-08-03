@@ -6,10 +6,11 @@ import BookListItem from "./book-list-item/BookListItem";
 import BookService from "../../services/bookService";
 
 import { useEffect } from "react";
-
+import Spinner from "../reusables/spinner/Spinner";
 
 export default function BookList() {
   const [books, setBook] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const collectionName = "books";
 
@@ -25,24 +26,34 @@ export default function BookList() {
         );
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(true);
       }
     };
+
+    const minDuration = 1000;
+    setTimeout(() => setIsLoading(false), minDuration);
 
     fetchData();
   }, []);
   return (
     <section id="book-list">
-      <h1>Browse Books</h1>
-      <div id="card-area">
-        <div className="wrapper">
-          <div className="box-area">
-            {books.map((book) => (
-              <BookListItem key={book.id} {...book} />
-              
-            ))}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <>
+          <h1>Browse Books</h1>
+          <div id="card-area">
+            <div className="wrapper">
+              <div className="box-area">
+                {books.map((book) => (
+                  <BookListItem key={book.id} {...book} />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </section>
   );
 }

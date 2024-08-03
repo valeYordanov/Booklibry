@@ -4,6 +4,7 @@ import { getUser } from "../../../services/userService";
 import { Link, useParams } from "react-router-dom";
 import BookService from "../../../services/bookService";
 import RentedBookListItem from "./user-rented-books/UserRentedBookItem";
+import Spinner from "../../reusables/spinner/Spinner";
 
 export default function UserProfile() {
   const { userId } = useParams();
@@ -11,21 +12,31 @@ export default function UserProfile() {
   const [user, setUser] = useState({});
 
   const [rentedBooks, setRentedBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userResult = await getUser(userId);
+      try {
+        const userResult = await getUser(userId);
 
-      const userBooks = await BookService.getRentedBooks(userId);
+        const userBooks = await BookService.getRentedBooks(userId);
 
-      setRentedBooks(
-        userBooks
-          ? Object.entries(userBooks).map(([id, value]) => ({ id, ...value }))
-          : []
-      );
+        setRentedBooks(
+          userBooks
+            ? Object.entries(userBooks).map(([id, value]) => ({ id, ...value }))
+            : []
+        );
 
-      setUser(userResult);
+        setUser(userResult);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(true);
+      }
     };
+
+    const minDuration = 900;
+    setTimeout(() => setIsLoading(false), minDuration);
 
     fetchUserData();
   }, [userId]);
@@ -33,7 +44,9 @@ export default function UserProfile() {
   const returnBookHandler = async (bookId) => {
     await BookService.returnRentedBook(userId, bookId);
 
-    setRentedBooks((rentedBooks) => rentedBooks.filter(({id}) => id !== bookId) )
+    setRentedBooks((rentedBooks) =>
+      rentedBooks.filter(({ id }) => id !== bookId)
+    );
 
     await BookService.updateBook("books", bookId, {
       isRented: false,
@@ -41,42 +54,51 @@ export default function UserProfile() {
   };
 
   return (
-    <div className="profile-container">
-      <div className="profile-header">
-        <img
-          src="https://freesvg.org/img/abstract-user-flat-4.png"
-          alt="User Avatar"
-          className="avatar"
-        />
-        <h1 className="username-h1">{user.username}</h1>
-      </div>
-      <div className="profile-details">
-        <h2>Profile Details</h2>
-
-        <p>
-          <strong>Email:</strong> {user.email}
-        </p>
-        <p>
-          <strong>Country:</strong> {user.country}
-        </p>
-        <p>
-          <strong>Telephone:</strong> {user.tel}
-        </p>
-        <p>
-          <strong>Member Since:</strong> January 2020
-        </p>
-      </div>
-      <div className="books-rented">
-        <h2>Books Rented</h2>
-        <ul className="rented-books-list">
-          {rentedBooks.map((book) => (
-            <RentedBookListItem key={book.id} {...book} returnBookHandler={returnBookHandler} />
-          ))}
-        </ul>
-      </div>
-      <Link to={`/user-profile/${userId}/edit`} className="edit-profile">
-        Edit Profile
-      </Link>
+    <div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="profile-container">
+          <div className="profile-header">
+            <img
+              src="https://freesvg.org/img/abstract-user-flat-4.png"
+              alt="User Avatar"
+              className="avatar"
+            />
+            <h1 className="username-h1">{user.username}</h1>
+          </div>
+          <div className="profile-details">
+            <h2>Profile Details</h2>
+            <p>
+              <strong>Email:</strong> {user.email}
+            </p>
+            <p>
+              <strong>Country:</strong> {user.country}
+            </p>
+            <p>
+              <strong>Telephone:</strong> {user.tel}
+            </p>
+            <p>
+              <strong>Member Since:</strong> January 2020
+            </p>
+          </div>
+          <div className="books-rented">
+            <h2>Books Rented</h2>
+            <ul className="rented-books-list">
+              {rentedBooks.map((book) => (
+                <RentedBookListItem
+                  key={book.id}
+                  {...book}
+                  returnBookHandler={returnBookHandler}
+                />
+              ))}
+            </ul>
+          </div>
+          <Link to={`/user-profile/${userId}/edit`} className="edit-profile">
+            Edit Profile
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
