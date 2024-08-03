@@ -2,23 +2,43 @@ import { useEffect, useState } from "react";
 import "./UserProfile.css";
 import { getUser } from "../../../services/userService";
 import { Link, useParams } from "react-router-dom";
+import BookService from "../../../services/bookService";
+import RentedBookListItem from "./user-rented-books/UserRentedBookItem";
 
 export default function UserProfile() {
   const { userId } = useParams();
 
   const [user, setUser] = useState({});
 
+  const [rentedBooks, setRentedBooks] = useState([]);
+
   useEffect(() => {
     const fetchUserData = async () => {
       const userResult = await getUser(userId);
 
-      setUser(userResult);
+      const userBooks = await BookService.getRentedBooks(userId);
 
-      console.log(userResult);
+      setRentedBooks(
+        userBooks
+          ? Object.entries(userBooks).map(([id, value]) => ({ id, ...value }))
+          : []
+      );
+
+      setUser(userResult);
     };
 
     fetchUserData();
   }, [userId]);
+
+  const returnBookHandler = async (bookId) => {
+    await BookService.returnRentedBook(userId, bookId);
+
+    setRentedBooks((rentedBooks) => rentedBooks.filter(({id}) => id !== bookId) )
+
+    await BookService.updateBook("books", bookId, {
+      isRented: false,
+    });
+  };
 
   return (
     <div className="profile-container">
@@ -48,26 +68,15 @@ export default function UserProfile() {
       </div>
       <div className="books-rented">
         <h2>Books Rented</h2>
-        <ul>
-          <li>
-            <div className="book">
-              <img src="book1.jpg" alt="Book 1" className="book-cover" />
-              <div className="book-details">
-                <h3>Book Title 1</h3>
-                <p>
-                  <strong>Author:</strong> Author Name
-                </p>
-                <p>
-                  <strong>Rented On:</strong> July 1, 2024
-                </p>
-              </div>
-            </div>
-          </li>
+        <ul className="rented-books-list">
+          {rentedBooks.map((book) => (
+            <RentedBookListItem key={book.id} {...book} returnBookHandler={returnBookHandler} />
+          ))}
         </ul>
-        <Link to={`/user-profile/${userId}/edit`} className="edit-profile">
-            Edit Profile
-          </Link>
       </div>
+      <Link to={`/user-profile/${userId}/edit`} className="edit-profile">
+        Edit Profile
+      </Link>
     </div>
   );
 }

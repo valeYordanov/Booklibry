@@ -21,11 +21,9 @@ export const updateUser = async (collectionName, id, updatedData) => {
   try {
     const dbRef = ref(db, `${collectionName}/${id}`);
     await update(dbRef, updatedData);
-    return {
-      id,
-      ...updatedData,
-    };
+    
   } catch (error) {
     throw new Error("Error updating data: " + error.message);
   }
 };
+

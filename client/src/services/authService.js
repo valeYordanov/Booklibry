@@ -20,7 +20,7 @@ export const register = async (email, password, additionalData) => {
 
     const token = await getIdToken(user);
 
-    await set(ref(db, "users/" + user.uid), {
+    await set(ref(db, `users/${user.uid}`), {
       email,
       ...additionalData,
     });

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./EditUser.css";
 import { getUser, updateUser } from "../../../services/userService";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,6 +12,7 @@ export default function EditUser() {
     username: "",
     email: "",
     tel: "",
+    country : ""
   });
 
   useEffect(() => {
@@ -23,17 +24,19 @@ export default function EditUser() {
     fetchEditedData();
   }, [userId]);
 
-  const changeHandler = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
 
-    setEditedUser((...prevUser) => ({
+    setEditedUser((prevUser) => ({
       ...prevUser,
       [name]: value,
     }));
-  };
+  },[]);
 
   const submitEditUserHandler = async (e) => {
     e.preventDefault();
+
+    
 
     try {
       await updateUser("users", userId, editedUser);
@@ -54,14 +57,14 @@ export default function EditUser() {
           type="text"
           name="username"
           value={editedUser.username}
-          onChange={changeHandler}
+          onChange={handleChange}
         />
         <label htmlFor="">Email:</label>
         <input
           type="text"
           name="email"
           value={editedUser.email}
-          onChange={changeHandler}
+          onChange={handleChange}
         />
 
         <label htmlFor="">Country:</label>
@@ -69,7 +72,7 @@ export default function EditUser() {
           type="text"
           name="country"
           value={editedUser.country}
-          onChange={changeHandler}
+          onChange={handleChange}
         />
 
         <label htmlFor="">Telephone Number:</label>
@@ -77,11 +80,11 @@ export default function EditUser() {
           type="text"
           name="tel"
           value={editedUser.tel}
-          onChange={changeHandler}
+          onChange={handleChange}
         />
 
         <div className="profile-buttons">
-          <button className="update-profile">Update Profile</button>
+          <button type="submit" className="update-profile">Update Profile</button>
           <button className="go-back">Go Back</button>
         </div>
       </form>

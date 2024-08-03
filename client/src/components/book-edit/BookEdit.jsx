@@ -70,7 +70,7 @@ export default function BookEdit() {
       if (Object.keys(newErrors).length === 0) {
         const bookData = Object.fromEntries(new FormData(e.currentTarget));
 
-        await BookService.update("books", bookId, bookData);
+        await BookService.updateBook("books", bookId, bookData);
 
         navigate(`/books/${bookId}`);
       }

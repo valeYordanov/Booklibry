@@ -39,8 +39,9 @@
   margin: 5px 0;
 }
 
-.book {
+.rented-book {
   display: flex;
+  
   align-items: center;
   margin-bottom: 10px;
   padding: 10px;
@@ -49,8 +50,8 @@
 }
 
 .book-cover {
-  width: 60px;
-  height: 90px;
+  width: 70px;
+  height: 100px;
   margin-right: 10px;
 }
 
@@ -82,4 +83,26 @@
   color: white;
   background-color: #6161d5;
   border-color: transparent;
+}
+
+.rented-books-list{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 4fr));
+  gap: 40px;
+}
+
+.return-btn{
+  font-weight: bold;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  padding: 0.5em 1.5em ;
+  border-radius: 15px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.return-btn:hover{
+  background-color: black;
+  color: white;
 }

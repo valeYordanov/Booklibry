@@ -51,12 +51,16 @@ export default function BookDetails() {
 
   const rentHandler = async () => {
     try {
-      const res = await BookService.update("books", bookId, {
+      const res = await BookService.updateBook("books", bookId, {
         isRented: true,
       });
       setBook(res);
 
       setIsUnavailabe(true);
+
+      await BookService.rentBook(authState.uid,book,bookId)
+
+
     } catch (error) {
       console.log(error);
     }
