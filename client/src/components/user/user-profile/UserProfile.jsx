@@ -82,6 +82,13 @@ export default function UserProfile() {
           </div>
           <div className="books-rented">
             <h2>Books Rented</h2>
+            <p className="books-count">
+              You have burrowed {rentedBooks.length}{" "}
+              {rentedBooks.length > 1 || rentedBooks.length === 0
+                ? "books"
+                : "book"}
+              .
+            </p>
             <ul className="rented-books-list">
               {rentedBooks.map((book) => (
                 <RentedBookListItem

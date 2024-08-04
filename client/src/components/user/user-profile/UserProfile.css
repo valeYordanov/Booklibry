@@ -106,3 +106,10 @@
   background-color: black;
   color: white;
 }
+
+.books-count{
+  color: #6161d5;
+  font-weight: bold;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}

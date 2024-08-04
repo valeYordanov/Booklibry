@@ -5,16 +5,23 @@
   flex-direction: row;
   margin-top: 2em;
 
-  gap: 5em;
+  gap: 12em;
 }
 
 .book{
   display: flex;
   flex-direction: column;
+  
 }
 
 .resume{
   color: #616bd4;
+}
+.pages-count{
+  display: block;
+  color: #616bd4;
+  font-size: 25px;
+  padding-top: 2em;
 }
 
 .book-details {

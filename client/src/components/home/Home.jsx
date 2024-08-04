@@ -1,8 +1,9 @@
+import MostRecentBooks from "../most-recent-books/MostRecentBooks";
 import "./Home.css";
 
 export default function Home() {
   return (
-    <div className="welcome-msg">
+    <><div className="welcome-msg">
       <h2>
         Welcome to <span className="first">Booklibry</span>
       </h2>
@@ -10,6 +11,7 @@ export default function Home() {
       <span className="second">
         Immerse yourself in different books and explore your imagination
       </span>
-    </div>
+
+    </div><MostRecentBooks /></>
   );
 }

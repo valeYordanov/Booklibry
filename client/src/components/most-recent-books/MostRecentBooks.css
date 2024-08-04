@@ -1,0 +1,45 @@
+.recent-title {
+  text-align: center;
+  padding-top: 0.5em;
+  color: gray;
+}
+
+.recent-container {
+  padding: 10px 10%;
+}
+.recent-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 3fr));
+  gap: 40px;
+  margin-left: 8em;
+}
+
+.book-card {
+  width: 250px;
+  border: 0.5px solid transparent;
+  margin: 2em 0;
+  text-align: center;
+  color: rgb(8, 8, 8);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: gainsboro;
+}
+.book-img {
+  width: 250px;
+  height: auto;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.author {
+  padding-top: 1em;
+}
+
+.date-recent {
+  font-size: 20px;
+  color: rgb(166, 151, 226);
+  font-weight: bold;
+  padding-bottom: 1em;
+}

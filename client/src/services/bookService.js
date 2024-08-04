@@ -1,4 +1,14 @@
-import { ref, get, set, update, remove, push } from "firebase/database";
+import {
+  ref,
+  get,
+  set,
+  update,
+  remove,
+  push,
+  query,
+  orderByChild,
+  limitToLast,
+} from "firebase/database";
 import { db } from "../firebase/firebaseConfig";
 
 const BookService = {
@@ -32,6 +42,26 @@ const BookService = {
     }
   },
 
+  fetchRecentBooks: async () => {
+    try {
+      const dbRef = ref(db, "books");
+      const recentBooksQuery = query(
+        dbRef,
+        orderByChild("timestamp"),
+        limitToLast(3)
+      );
+      const snapshot = await get(recentBooksQuery);
+
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.error("Error fetching recent books:", error);
+    }
+  },
+
   rentBook: async (userId, book, bookId) => {
     const userRentBookRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
 
@@ -41,7 +71,7 @@ const BookService = {
   getRentedBooks: async (userId) => {
     try {
       const dbRef = ref(db, `users/${userId}/rentedBooks`);
-      const snapshot = await get(dbRef)
+      const snapshot = await get(dbRef);
       if (snapshot.exists()) {
         return snapshot.val();
       } else {
@@ -56,9 +86,11 @@ const BookService = {
     try {
       const dbRef = ref(db, collectionName);
       const newRef = push(dbRef);
-      const dataWithUserId = { ...newData, userId };
-      await set(newRef, dataWithUserId);
-      return { id: newRef.key, ...dataWithUserId };
+      const timestamp = Date.now();
+      const dataWithUserIdAndTimestamp = { ...newData, userId, timestamp };
+
+      await set(newRef, dataWithUserIdAndTimestamp);
+      return { id: newRef.key, ...dataWithUserIdAndTimestamp };
     } catch (error) {
       throw new Error("Error adding data: " + error.message);
     }
@@ -84,12 +116,10 @@ const BookService = {
     }
   },
 
-  returnRentedBook: async (userId,bookId) => {
-    const dbRef = ref(db, `users/${userId}/rentedBooks/${bookId}`)
-    await remove(dbRef)
-
-    
-  }
+  returnRentedBook: async (userId, bookId) => {
+    const dbRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
+    await remove(dbRef);
+  },
 };
 
 export default BookService;
