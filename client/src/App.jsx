@@ -18,6 +18,7 @@ import EditUser from "./components/user/user-profile-edit/EditUser";
 import AuthGuard from "./components/guards/AuthGuard";
 import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
 import NotFound from "./components/not-found/NotFound";
+import AuthRedirect from "./components/guards/AuthRedirect";
 
 function App() {
   return (
@@ -31,10 +32,10 @@ function App() {
               <Route path="/books" element={<BookList />} />
               <Route path="/books/:bookId" element={<BookDetails />} />
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-
-              <Route path="*" element={<NotFound />} />
+              <Route element={<AuthRedirect />}>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Route>
 
               <Route element={<AuthGuard />}>
                 <Route path="/add-book" element={<AddBook />} />
@@ -45,6 +46,8 @@ function App() {
                   element={<EditUser />}
                 />
               </Route>
+
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>
 
