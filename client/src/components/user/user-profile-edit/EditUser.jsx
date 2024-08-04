@@ -12,8 +12,10 @@ export default function EditUser() {
     username: "",
     email: "",
     tel: "",
-    country : ""
+    country: "",
   });
+
+  const [IsError,setIsError] = useState(false)
 
   useEffect(() => {
     const fetchEditedData = async () => {
@@ -31,14 +33,22 @@ export default function EditUser() {
       ...prevUser,
       [name]: value,
     }));
-  },[]);
+  }, []);
 
   const submitEditUserHandler = async (e) => {
     e.preventDefault();
 
-    
+    const hasEmptyFields = Object.values(editedUser).some(
+      (value) => value === "" || value === null || value === undefined
+    );
+
+    if (hasEmptyFields) {
+      setIsError(true)
+      return;
+    }
 
     try {
+      
       await updateUser("users", userId, editedUser);
 
       navigate(`/user-profile/${userId}`);
@@ -47,10 +57,15 @@ export default function EditUser() {
     }
   };
 
+  const goBackHandler = () => {
+    navigate(`/user-profile/${userId}`)
+  }
+
   return (
     <div className="profile-details-edit">
       <form onSubmit={submitEditUserHandler} className="edit-profile-form">
         <h1 className="edit-title">Edit profile details</h1>
+        {IsError && (<p className="fill-error">Please fill all fields!</p>)}
 
         <label htmlFor="">Username:</label>
         <input
@@ -84,8 +99,10 @@ export default function EditUser() {
         />
 
         <div className="profile-buttons">
-          <button type="submit" className="update-profile">Update Profile</button>
-          <button className="go-back">Go Back</button>
+          <button  className="update-profile">
+            Update Profile
+          </button>
+          <button onClick={goBackHandler} className="go-back">Go Back</button>
         </div>
       </form>
     </div>

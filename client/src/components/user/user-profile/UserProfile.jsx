@@ -12,7 +12,7 @@ export default function UserProfile() {
   const [user, setUser] = useState({});
 
   const [rentedBooks, setRentedBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,8 +30,6 @@ export default function UserProfile() {
         setUser(userResult);
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading(true);
       }
     };
 
