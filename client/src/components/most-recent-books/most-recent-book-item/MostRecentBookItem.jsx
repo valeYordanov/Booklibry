@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 /* eslint-disable react/prop-types */
 export default function MostRecentBookItem({ img, title, author, timestamp }) {
   const formatTimestamp = (timestamp) => {

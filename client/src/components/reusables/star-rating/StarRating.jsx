@@ -23,7 +23,7 @@ const StarRating = ({ totalStars = 5, bookTitle }) => {
     try {
       await submitRating(bookTitle, userId, ratingValue, Date.now());
       setRatingState(ratingValue); // Update the local state with the new rating
-      setIsRatingFrozen(true); // Freeze the stars after rating
+      setIsRatingFrozen(false); // Freeze the stars after rating
     } catch (error) {
       console.error("Error submitting rating:", error);
     }
@@ -35,7 +35,7 @@ const StarRating = ({ totalStars = 5, bookTitle }) => {
         const result = await fetchRatingForBookByUser(bookTitle, userId);
         if (result) {
           setRatingState(result.rating); // Extract rating value from result
-          setIsRatingFrozen(true); // Set isRatingFrozen based on fetched rating
+          
         }
       } catch (error) {
         console.error("Error fetching rating:", error);

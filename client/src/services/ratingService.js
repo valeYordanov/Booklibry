@@ -1,4 +1,4 @@
-import { get, ref, remove, set } from "firebase/database";
+import { get, ref, remove, set, update } from "firebase/database";
 import { db } from "../firebase/firebaseConfig";
 
 export const submitRating = async (bookTitle, userId, rating) => {
@@ -12,7 +12,7 @@ export const submitRating = async (bookTitle, userId, rating) => {
     };
 
     // Write the data to the database
-    await set(ratingRef, ratingData);
+    await update(ratingRef, ratingData);
 
     console.log("Rating submitted successfully!");
   } catch (error) {

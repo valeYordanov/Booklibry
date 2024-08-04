@@ -5,23 +5,18 @@ import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 
-import{} from "react-icons"
-import { FaUser } from "react-icons/fa";
-
 export default function Header() {
   const navigate = useNavigate();
 
-  
-
   const { authState, changeAuthStatetoLogout } = useContext(AuthContext);
 
-  const userId = authState.uid
+  const userId = authState.uid;
   const logouthandler = async () => {
     try {
       await logout();
       changeAuthStatetoLogout();
-      localStorage.removeItem('token')
-      navigate("/login");
+      localStorage.removeItem("token");
+      navigate("/");
     } catch (error) {
       error;
     }

@@ -37,7 +37,6 @@ export default function AddBook() {
   const validate = () => {
     const newErrors = {};
 
-    // Basic validation rules
     if (!formValues.title) newErrors.title = "Title is required!";
     if (!formValues.author) newErrors.author = "Author is required!";
     if (!formValues.category) newErrors.category = "Category is required!";

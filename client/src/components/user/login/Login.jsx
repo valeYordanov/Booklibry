@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import "./Login.css";
 
 import { login } from "../../../services/authService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../../contexts/authContext";
-import { auth } from "../../../firebase/firebaseConfig";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -66,9 +66,9 @@ export default function Login() {
         <button className="login">Login</button>
         <p>
           Not our Client yet?
-          <a>
+          <Link to={"/register"}>
             <span className="sign-up-span">Sign up Now!</span>
-          </a>
+          </Link>
         </p>
       </div>
     </form>

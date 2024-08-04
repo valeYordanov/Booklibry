@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import "./Register.css";
 import { register } from "../../../services/authService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../../contexts/authContext";
 
 // import {ToasterContainer} from 'react-toastify'
@@ -152,9 +152,9 @@ export default function Register() {
         <button className="register">Register</button>
         <p>
           Already have an accout?
-          <a>
+          <Link to={"/login"}>
             <span className="login-span">Login!</span>
-          </a>
+          </Link>
         </p>
       </div>
     </form>

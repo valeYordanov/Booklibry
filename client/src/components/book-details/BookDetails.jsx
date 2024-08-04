@@ -10,7 +10,6 @@ import AuthContext from "../../contexts/authContext";
 import { deleteRatingByBookTitle } from "../../services/ratingService";
 import Spinner from "../reusables/spinner/Spinner";
 
-
 export default function BookDetails() {
   const [book, setBook] = useState({});
 
@@ -40,7 +39,7 @@ export default function BookDetails() {
     })();
   });
 
-  const submitDeleteHandler = async () => {
+  const clickDeleteHandler = async () => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this book?"
     );
@@ -59,11 +58,11 @@ export default function BookDetails() {
     }
   };
 
-  const submitGoBackHandler = () => {
+  const clickGoBackHandler = () => {
     navigate("/books");
   };
 
-  const rentHandler = async () => {
+  const clickRentHandler = async () => {
     if (!isAuthenticated) {
       navigate("/login");
       return;
@@ -102,6 +101,9 @@ export default function BookDetails() {
               <label htmlFor="author">Author</label>
               <h3 className="author">{book.author}</h3>
 
+              <label htmlFor="category">Category</label>
+              <h3 className="category">{book.category}</h3>
+
               <h2 className="resume">Resume</h2>
               <p className="summary-book">{book.summary}</p>
 
@@ -121,7 +123,7 @@ export default function BookDetails() {
           </div>
           <div className="special-buttons">
             {!isUnavailable && !isOwner.current && (
-              <button onClick={rentHandler} className="rent-btn">
+              <button onClick={clickRentHandler} className="rent-btn">
                 Rent
               </button>
             )}
@@ -132,12 +134,12 @@ export default function BookDetails() {
               </Link>
             )}
             {isOwner.current && (
-              <button onClick={submitDeleteHandler} className="delete-btn">
+              <button onClick={clickDeleteHandler} className="delete-btn">
                 Delete
               </button>
             )}
 
-            <button onClick={submitGoBackHandler} className="go-back-btn">
+            <button onClick={clickGoBackHandler} className="go-back-btn">
               Go Back
             </button>
           </div>
