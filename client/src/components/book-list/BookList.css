@@ -10,7 +10,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 4fr));
   gap: 40px;
- 
+
   /* margin-top: 50px; */
 }
 
@@ -18,7 +18,7 @@
   border-radius: 10px;
   position: relative;
   overflow: hidden;
-  
+
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5), green, blue, alpha;
 }
 
@@ -83,12 +83,12 @@
   text-align: center;
   margin-top: 0.5em;
   font-size: 45px;
-  color: gray
+  color: gray;
 }
 
-.can-rent{
+.can-rent {
   padding-bottom: 2em;
-  color:#000;
+  color: #000;
   font-size: 20px;
   font-weight: bold;
   background-color: white;
@@ -98,9 +98,20 @@
   padding-top: 10px;
   border-radius: 20px;
   margin-bottom: 2em;
-  
 }
 
 .box-container.rented {
-  filter:brightness(25%)
+  filter: brightness(25%);
+}
+
+.search-container {
+  margin-left: 8.5em;
+}
+
+.no-book {
+  margin-left: 14em;
+  width: 400px;
+  margin-top: 5em;
+  font-size: 30px;
+  color: #887f7f;
 }
