@@ -1,4 +1,4 @@
-import { get, ref, remove, set, update } from "firebase/database";
+import { get, ref, remove, update } from "firebase/database";
 import { db } from "../firebase/firebaseConfig";
 
 export const submitRating = async (bookTitle, userId, rating) => {

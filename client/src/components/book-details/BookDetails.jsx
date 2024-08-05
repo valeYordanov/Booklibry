@@ -16,7 +16,7 @@ export default function BookDetails() {
   const { bookId } = useParams();
   const navigate = useNavigate();
 
-  const [isUnavailable, setIsUnavailabe] = useState(false);
+  const [isRented, setIsRented] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { authState } = useContext(AuthContext);
@@ -29,7 +29,7 @@ export default function BookDetails() {
       const result = await BookService.getOne(bookId);
 
       setBook(result);
-      setIsUnavailabe(book.isRented || false);
+      setIsRented(book.isRented || false);
 
       if (authState.uid === result.userId) {
         isOwner.current = true;
@@ -73,8 +73,6 @@ export default function BookDetails() {
         isRented: true,
       });
       setBook(res);
-
-      setIsUnavailabe(true);
 
       await BookService.rentBook(authState.uid, book, bookId);
     } catch (error) {
@@ -122,7 +120,7 @@ export default function BookDetails() {
             </div>
           </div>
           <div className="special-buttons">
-            {!isUnavailable && !isOwner.current && (
+            {!isRented && !isOwner.current && (
               <button onClick={clickRentHandler} className="rent-btn">
                 Rent
               </button>

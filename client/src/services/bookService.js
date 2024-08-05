@@ -65,7 +65,7 @@ const BookService = {
   rentBook: async (userId, book, bookId) => {
     const userRentBookRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
 
-    await set(userRentBookRef, { ...book, isRented: true });
+    await set(userRentBookRef, { ...book , isRented:true});
   },
 
   getRentedBooks: async (userId) => {
