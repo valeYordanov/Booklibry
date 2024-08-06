@@ -5,7 +5,6 @@ import { login } from "../../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../../contexts/authContext";
 
-
 export default function Login() {
   const navigate = useNavigate();
   const { changeAuthState } = useContext(AuthContext);

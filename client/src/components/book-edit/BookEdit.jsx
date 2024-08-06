@@ -68,9 +68,7 @@ export default function BookEdit() {
       const newErrors = validate();
       setErrors(newErrors);
       if (Object.keys(newErrors).length === 0) {
-        const bookData = Object.fromEntries(new FormData(e.currentTarget));
-
-        await BookService.updateBook("books", bookId, bookData);
+        await BookService.updateBook("books", bookId, book);
 
         navigate(`/books/${bookId}`);
       }
@@ -79,10 +77,9 @@ export default function BookEdit() {
     }
   };
 
-
   const cancelClickHandler = () => {
     navigate(`/books/${bookId}`);
-  } 
+  };
 
   return (
     <div className="full-form">
@@ -156,7 +153,9 @@ export default function BookEdit() {
           <div className="buttons">
             <button className="add">Edit</button>
 
-            <button onClick={cancelClickHandler} className="cancel">Cancel</button>
+            <button onClick={cancelClickHandler} className="cancel">
+              Cancel
+            </button>
           </div>
         </form>
       </div>

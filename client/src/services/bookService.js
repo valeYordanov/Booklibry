@@ -63,9 +63,13 @@ const BookService = {
   },
 
   rentBook: async (userId, book, bookId) => {
-    const userRentBookRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
+    try {
+      const userRentBookRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
 
-    await set(userRentBookRef, { ...book , isRented:true});
+      await set(userRentBookRef, { ...book, isRented: true });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   getRentedBooks: async (userId) => {
@@ -117,8 +121,12 @@ const BookService = {
   },
 
   returnRentedBook: async (userId, bookId) => {
-    const dbRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
-    await remove(dbRef);
+    try {
+      const dbRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
+      await remove(dbRef);
+    } catch (error) {
+      console.log(error);
+    }
   },
 };
 
