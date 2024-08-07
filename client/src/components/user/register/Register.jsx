@@ -77,7 +77,7 @@ export default function Register() {
         changeAuthState({
           uid: user.uid,
           email: user.email,
-          
+          username:user.username
         });
 
         localStorage.setItem("token", user.token);

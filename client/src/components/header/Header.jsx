@@ -4,6 +4,7 @@ import "./Header.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
+import { FaUser } from "react-icons/fa";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -31,42 +32,48 @@ export default function Header() {
         </h1>
       </div>
 
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/books">Books</Link>
-          </li>
-          {authState.isAuthenticated && (
+      <div className="user-profile">
+        <nav>
+          <ul>
             <li>
-              <Link to="/add-book">Add Your Book</Link>
+              <Link to="/">Home</Link>
             </li>
-          )}
-          {!authState.isAuthenticated && (
-            <>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/register">Register</Link>
-              </li>
-            </>
-          )}
-          {authState.isAuthenticated && (
             <li>
-              <Link onClickCapture={logouthandler}>Logout</Link>
+              <Link to="/books">Books</Link>
             </li>
-          )}
+            {authState.isAuthenticated && (
+              <li>
+                <Link to="/add-book">Add Your Book</Link>
+              </li>
+            )}
+            {!authState.isAuthenticated && (
+              <>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+                <li>
+                  <Link to="/register">Register</Link>
+                </li>
+              </>
+            )}
+            {authState.isAuthenticated && (
+              <li>
+                <Link onClickCapture={logouthandler}>Logout</Link>
+              </li>
+            )}
 
-          {authState.isAuthenticated && (
-            <li>
-              <Link to={`/user-profile/${userId}`}>User Profile</Link>
-            </li>
-          )}
-        </ul>
-      </nav>
+            {authState.isAuthenticated && (
+              <><li>
+                <Link to={`/user-profile/${userId}`}>
+                  <FaUser />
+                </Link>
+
+
+              </li><p className="welcoming-msg">Welcome back,{" "}<span className="email-span">{authState.email}</span></p></>
+            )}
+          </ul>
+        </nav>
+      </div>
     </header>
   );
 }

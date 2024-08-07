@@ -24,6 +24,7 @@ export default function Login() {
       changeAuthState({
         uid: user.uid,
         email: user.email,
+        
       });
       localStorage.setItem("token", user.token);
       navigate("/");

@@ -4,7 +4,7 @@ import { createContext, useEffect, useState } from "react";
 export const AuthProvider = ({ children }) => {
   const [authState, setAuthState] = useState({
     isAuthenticated: false,
-    token: null,
+
     uid: null,
     email: null,
     username: null,
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   const changeAuthState = (user) => {
     const newState = {
       isAuthenticated: true,
-      token: user.token,
+
       uid: user.uid,
       email: user.email,
       username: user.username,

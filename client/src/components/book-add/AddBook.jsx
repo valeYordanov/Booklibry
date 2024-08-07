@@ -25,7 +25,6 @@ export default function AddBook() {
     setFormValues((prevData) => ({
       ...prevData,
       [name]: value,
-      isRented: false,
     }));
 
     setErrors((prevErrors) => ({

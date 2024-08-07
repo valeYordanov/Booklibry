@@ -76,9 +76,7 @@ export default function UserProfile() {
             <p>
               <strong>Telephone:</strong> {user.tel}
             </p>
-            <p>
-              <strong>Member Since:</strong> January 2020
-            </p>
+            
           </div>
           <div className="books-rented">
             <h2>Books Rented</h2>

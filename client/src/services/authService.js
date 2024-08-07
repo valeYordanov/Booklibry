@@ -9,6 +9,9 @@ import {
 import { ref, set } from "firebase/database";
 import { handleFirebaseError } from "../utils/errorFirebaseHandler";
 
+
+
+
 export const register = async (email, password, additionalData) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -29,7 +32,7 @@ export const register = async (email, password, additionalData) => {
       token,
       uid: user.uid,
       email: user.email,
-      
+      username:additionalData.username
     };
   } catch (error) {
     throw new Error(handleFirebaseError(error));
@@ -37,6 +40,7 @@ export const register = async (email, password, additionalData) => {
 };
 
 export const login = async (email, password) => {
+  
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -50,6 +54,7 @@ export const login = async (email, password) => {
       token,
       uid: user.uid,
       email: user.email,
+      
     };
   } catch (error) {
     throw new Error(handleFirebaseError(error));
