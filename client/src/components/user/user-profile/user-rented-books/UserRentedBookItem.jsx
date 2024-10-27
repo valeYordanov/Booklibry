@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 export default function RentedBookListItem({
   // eslint-disable-next-line react/prop-types
-  id,
+  _id,
   title,
   author,
   img,
@@ -17,7 +17,7 @@ export default function RentedBookListItem({
             <strong>Author:</strong> {author}
           </p>
 
-          <button onClick={() => returnBookHandler(id)} className="return-btn">
+          <button onClick={() => returnBookHandler(_id)} className="return-btn">
             Return
           </button>
         </div>

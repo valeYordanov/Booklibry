@@ -1,29 +1,36 @@
 import { get, ref, update } from "firebase/database";
 import { db } from "../firebase/firebaseConfig";
+import axios from "axios";
 
 export const getUser = async (userId) => {
   try {
-    const dbRef = ref(db, `users/${userId}`);
-
-    const snapshot = await get(dbRef);
-
-    if (snapshot.exists()) {
-      return snapshot.val();
-    } else {
-      return [];
-    }
+    const response = await axios.get(`http://localhost:5000/api/users/${userId}`)
+    return response.data
   } catch (error) {
     throw new Error("Error getting data: " + error.massage);
   }
 };
 
-export const updateUser = async (collectionName, id, updatedData) => {
+export const updateUser = async (userId, updatedData, token) => {
   try {
-    const dbRef = ref(db, `${collectionName}/${id}`);
-    await update(dbRef, updatedData);
-    
+    const response = await axios.put(
+      `http://localhost:5000/api/users/${userId}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // Check if a new token was returned
+    if (response.data.token) {
+      localStorage.setItem("authToken", response.data.token);
+    }
+
+    return response.data;
   } catch (error) {
-    throw new Error("Error updating data: " + error.message);
+    console.error("Error updating user:", error);
+    throw error;
   }
 };
-

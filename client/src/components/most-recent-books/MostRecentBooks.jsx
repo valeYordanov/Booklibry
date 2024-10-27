@@ -10,13 +10,7 @@ export default function MostRecentBooks() {
       try {
         const result = await BookService.fetchRecentBooks();
 
-        setRecentBooks(
-          result
-            ? Object.entries(result)
-                .map(([id, value]) => ({ id, ...value }))
-                .sort((a, b) => b.timestamp - a.timestamp)
-            : []
-        );
+        setRecentBooks(result);
       } catch (error) {
         console.error(error);
       }
@@ -25,14 +19,12 @@ export default function MostRecentBooks() {
     fetchData();
   }, []);
 
- 
-
   return (
     <div className="recent-container">
       <h1 className="recent-title">Most Recent Books</h1>
       <div className="recent-list">
         {recentBooks.map((book) => (
-          <MostRecentBookItem key={book.id} {...book} />
+          <MostRecentBookItem key={book._id} {...book} />
         ))}
       </div>
     </div>

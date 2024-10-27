@@ -60,6 +60,7 @@ export default function BookEdit() {
 
     return newErrors;
   };
+  
 
   const submitEditHandler = async (e) => {
     e.preventDefault();
@@ -68,7 +69,7 @@ export default function BookEdit() {
       const newErrors = validate();
       setErrors(newErrors);
       if (Object.keys(newErrors).length === 0) {
-        await BookService.updateBook("books", bookId, book);
+        await BookService.updateBook( bookId, book);
 
         navigate(`/books/${bookId}`);
       }

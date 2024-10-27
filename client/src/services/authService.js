@@ -8,56 +8,40 @@ import {
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import { handleFirebaseError } from "../utils/errorFirebaseHandler";
+import axios from "axios";
 
-
-
-
-export const register = async (email, password, additionalData) => {
+export const register = async (userData) => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
+    const response = await axios.post(
+      "http://localhost:5000/api/users/signup",
+      userData
     );
-    const user = userCredential.user;
-
-    const token = await getIdToken(user);
-
-    await set(ref(db, `users/${user.uid}`), {
-      email,
-      ...additionalData,
-    });
-
-    return {
-      token,
-      uid: user.uid,
-      email: user.email,
-      username:additionalData.username
-    };
+    return response.data;
   } catch (error) {
-    throw new Error(handleFirebaseError(error));
+    let errorMessage = "An unexpected error occurred";
+
+    if (error.response) {
+      errorMessage = error.response.data.message || errorMessage;
+    }
+
+    throw new Error(errorMessage);
   }
 };
 
 export const login = async (email, password) => {
-  
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
+    const response = await axios.post("http://localhost:5000/api/users/login", {
+      email:email,
+      password:password,
+    });
+    // Store the token if login is successful
 
-    const token = await getIdToken(user);
-    return {
-      token,
-      uid: user.uid,
-      email: user.email,
-      
-    };
+   
+
+    return response.data;
   } catch (error) {
-    throw new Error(handleFirebaseError(error));
+    console.error("Login error:", error);
+    throw error;
   }
 };
 

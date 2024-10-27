@@ -5,6 +5,7 @@ import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";
 import { FaUser } from "react-icons/fa";
+import axios from "axios";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -14,12 +15,22 @@ export default function Header() {
   const userId = authState.uid;
   const logouthandler = async () => {
     try {
-      await logout();
+      await axios.post(
+        "http://localhost:5000/api/users/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authState.token}`, // Send the current token if you want to validate
+          },
+        }
+      );
+      // Proceed with clearing local storage and redirecting as before
+      localStorage.removeItem("authToken");
       changeAuthStatetoLogout();
-      localStorage.removeItem("token");
-      navigate("/");
+      navigate("/login");
     } catch (error) {
-      error;
+      console.error("Logout error:", error);
+      // Handle any errors if needed
     }
   };
   return (
@@ -63,13 +74,17 @@ export default function Header() {
             )}
 
             {authState.isAuthenticated && (
-              <><li>
-                <Link to={`/user-profile/${userId}`}>
-                  <FaUser />
-                </Link>
-
-
-              </li><p className="welcoming-msg">Welcome back,{" "}<span className="email-span">{authState.email}</span></p></>
+              <>
+                <li>
+                  <Link to={`/user-profile/${userId}`}>
+                    <FaUser />
+                  </Link>
+                </li>
+                <p className="welcoming-msg">
+                  Welcome back,{" "}
+                  <span className="email-span">{authState.email}</span>
+                </p>
+              </>
             )}
           </ul>
         </nav>

@@ -2,11 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import "./EditUser.css";
 import { getUser, updateUser } from "../../../services/userService";
 import { useNavigate, useParams } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "../../../contexts/authContext";
 
 export default function EditUser() {
   const { userId } = useParams();
 
   const navigate = useNavigate();
+  const { authState,changeAuthState } = useContext(AuthContext);
 
   const [editedUser, setEditedUser] = useState({
     username: "",
@@ -15,7 +18,7 @@ export default function EditUser() {
     country: "",
   });
 
-  const [IsError,setIsError] = useState(false)
+  const [IsError, setIsError] = useState(false);
 
   useEffect(() => {
     const fetchEditedData = async () => {
@@ -43,13 +46,19 @@ export default function EditUser() {
     );
 
     if (hasEmptyFields) {
-      setIsError(true)
+      setIsError(true);
       return;
     }
 
     try {
+      const updatedUser = await updateUser(userId, editedUser, authState.token);
+
+      // Store the new token if it's provided
+      if (updatedUser.token) {
+        localStorage.setItem("authToken", updatedUser.token);
+      }
       
-      await updateUser("users", userId, editedUser);
+      changeAuthState(updatedUser)
 
       navigate(`/user-profile/${userId}`);
     } catch (error) {
@@ -58,14 +67,14 @@ export default function EditUser() {
   };
 
   const goBackHandler = () => {
-    navigate(`/user-profile/${userId}`)
-  }
+    navigate(`/user-profile/${userId}`);
+  };
 
   return (
     <div className="profile-details-edit">
       <form onSubmit={submitEditUserHandler} className="edit-profile-form">
         <h1 className="edit-title">Edit profile details</h1>
-        {IsError && (<p className="fill-error">Please fill all fields!</p>)}
+        {IsError && <p className="fill-error">Please fill all fields!</p>}
 
         <label htmlFor="">Username:</label>
         <input
@@ -99,10 +108,10 @@ export default function EditUser() {
         />
 
         <div className="profile-buttons">
-          <button  className="update-profile">
-            Update Profile
+          <button className="update-profile">Update Profile</button>
+          <button onClick={goBackHandler} className="go-back">
+            Go Back
           </button>
-          <button onClick={goBackHandler} className="go-back">Go Back</button>
         </div>
       </form>
     </div>

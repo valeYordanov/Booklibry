@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import "./BookDetails.css";
 import BookService from "../../services/bookService";
@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import StarRating from "../reusables/star-rating/StarRating";
 
 import AuthContext from "../../contexts/authContext";
-import { deleteRatingByBookTitle } from "../../services/ratingService";
+
 import Spinner from "../reusables/spinner/Spinner";
 
 export default function BookDetails() {
@@ -22,7 +22,7 @@ export default function BookDetails() {
   const { authState } = useContext(AuthContext);
   const isAuthenticated = authState.isAuthenticated;
 
-  let isOwner = useRef(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -31,13 +31,13 @@ export default function BookDetails() {
       setBook(result);
       setIsRented(book.isRented || false);
 
-      if (authState.uid === result.userId) {
-        isOwner.current = true;
+      if (authState.uid === result.owner) {
+        setIsOwner(true);
       } else {
-        isOwner.current = false;
+        setIsOwner(false);
       }
     })();
-  });
+  }, [bookId, authState.uid, book.isRented]);
 
   const clickDeleteHandler = async () => {
     const isConfirmed = window.confirm(
@@ -46,12 +46,8 @@ export default function BookDetails() {
 
     if (isConfirmed) {
       try {
-        const result = await BookService.delete("/books", bookId);
-
-        if (result) {
-          await deleteRatingByBookTitle(book.title);
-          navigate("/books");
-        }
+        await BookService.delete(bookId);
+        navigate("/books")
       } catch (error) {
         console.error("Error deleting the book:", error);
       }
@@ -69,12 +65,8 @@ export default function BookDetails() {
     }
     setIsLoading(true);
     try {
-      const res = await BookService.updateBook("books", bookId, {
-        isRented: true,
-      });
+      const res = await BookService.rentBook(bookId, authState.uid);
       setBook(res);
-
-      await BookService.rentBook(authState.uid, book, bookId);
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +99,7 @@ export default function BookDetails() {
 
               <p className="pages-count">Pages: {book.pages}</p>
 
-              {isAuthenticated && !isOwner.current ? (
+              {isAuthenticated && !isOwner ? (
                 <StarRating
                   totalStars={5}
                   bookId={bookId}
@@ -120,18 +112,18 @@ export default function BookDetails() {
             </div>
           </div>
           <div className="special-buttons">
-            {!isRented && !isOwner.current && (
+            {!isRented && !isOwner && (
               <button onClick={clickRentHandler} className="rent-btn">
                 Rent
               </button>
             )}
 
-            {isOwner.current && (
+            {isOwner && (
               <Link to={`/books/${bookId}/edit`} className="edit-btn">
                 Edit
               </Link>
             )}
-            {isOwner.current && (
+            {isOwner && (
               <button onClick={clickDeleteHandler} className="delete-btn">
                 Delete
               </button>

@@ -18,15 +18,15 @@ export default function Login() {
   const loginSubmitHandler = async (e) => {
     setApiError("");
     e.preventDefault();
-    const { email, password } = values;
+
     try {
-      const user = await login(email, password);
+      const user = await login(values.email,values.password);
       changeAuthState({
-        uid: user.uid,
+        uid: user.userId,
         email: user.email,
-        
+        username: user.username,
       });
-      localStorage.setItem("token", user.token);
+      localStorage.setItem("authToken", user.token);
       navigate("/");
     } catch (error) {
       setApiError(error.message);

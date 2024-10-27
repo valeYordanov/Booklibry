@@ -56,7 +56,7 @@ export default function AddBook() {
     setErrors(newErrors);
     try {
       if (Object.keys(newErrors).length === 0) {
-        await BookService.create("books", formValues, authState.uid);
+        await BookService.create(formValues, authState.uid);
 
         navigate("/books");
       }

@@ -1,44 +1,28 @@
-import { get, ref, remove, update } from "firebase/database";
-import { db } from "../firebase/firebaseConfig";
+import axios from "axios";
 
-export const submitRating = async (bookTitle, userId, rating) => {
+export const submitRating = async (bookId, userId, rating) => {
   try {
-    const ratingRef = ref(db, `ratings/${bookTitle}/${userId}`);
-
-    const ratingData = {
+    const response = await axios.post("http://localhost:5000/api/books/rate", {
+      bookId,
+      userId,
       rating,
-    };
-
-    await update(ratingRef, ratingData);
-
-    console.log("Rating submitted successfully!");
+    });
+    return response.data;
   } catch (error) {
-    throw new Error("Error submitting rating: " + error.message);
+    throw new Error("Error rating book: " + error.message);
   }
 };
-export const fetchRatingForBookByUser = async (bookTitle, userId) => {
+export const fetchRatingForBookByUser = async (bookId, userId) => {
   try {
-    const ratingRef = ref(db, `ratings/${bookTitle}/${userId}`);
-
-    const snapshot = await get(ratingRef);
-
-    if (snapshot.exists()) {
-      return snapshot.val();
-    } else {
-      return null;
-    }
+    const response = await axios.get(
+      `http://localhost:5000/api/books/${bookId}/rating`,
+      {
+        params: { userId },
+      }
+    );
+    return response.data;
   } catch (error) {
-    throw new Error("Error fetching rating: " + error.message);
-  }
-};
-
-export const deleteRatingByBookTitle = async (bookTitle) => {
-  try {
-    const dbRef = ref(db, `ratings/${bookTitle}`);
-    await remove(dbRef);
-    console.log("Ratings for book deleted successfully.");
-    return bookTitle;
-  } catch (error) {
-    console.error("Error deleting ratings:", error);
+    console.error("Error fetching rating:", error);
+    throw error;
   }
 };

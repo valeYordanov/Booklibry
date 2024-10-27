@@ -6,24 +6,26 @@ import "./StarRating.css";
 
 import {
   fetchRatingForBookByUser,
-  submitRating,
+ 
+  submitRating
 } from "../../../services/ratingService";
 import AuthContext from "../../../contexts/authContext";
 
-const StarRating = ({ totalStars = 5, bookTitle }) => {
-  const [rating, setRatingState] = useState(null); // Current rating from the database
-  const [hoverRating, setHoverRating] = useState(null); // Rating being hovered over
-  const [isRatingFrozen, setIsRatingFrozen] = useState(false); // Whether the rating is frozen
+
+const StarRating = ({ totalStars = 5, bookId}) => {
+  const [rating, setRatingState] = useState(null); 
+  const [hoverRating, setHoverRating] = useState(null); 
+  const [isRatingFrozen, setIsRatingFrozen] = useState(false); 
 
   const { authState } = useContext(AuthContext);
   const userId = authState.uid;
 
-  // Function to handle rating submission
+  
   const handleRating = async (ratingValue) => {
     try {
-      await submitRating(bookTitle, userId, ratingValue, Date.now());
-      setRatingState(ratingValue); // Update the local state with the new rating
-      setIsRatingFrozen(false); // Freeze the stars after rating
+      await submitRating(bookId, userId, ratingValue, );
+      setRatingState(ratingValue); 
+      setIsRatingFrozen(false);
     } catch (error) {
       console.error("Error submitting rating:", error);
     }
@@ -32,20 +34,21 @@ const StarRating = ({ totalStars = 5, bookTitle }) => {
   useEffect(() => {
     const fetchRating = async () => {
       try {
-        const result = await fetchRatingForBookByUser(bookTitle, userId);
-        if (result) {
-          setRatingState(result.rating); // Extract rating value from result
-          
+        const result = await fetchRatingForBookByUser(bookId, userId);
+        if (result && result.rating) {
+          setRatingState(result.rating); // Set the rating state if it exists
+        } else {
+          setRatingState(null); // Reset or clear the rating state if no rating exists
         }
       } catch (error) {
         console.error("Error fetching rating:", error);
+        setRatingState(null); // Ensure rating state is cleared on error as well
       }
     };
-
+  
     fetchRating();
-  }, [bookTitle, userId]);
-
-  // Function to render stars based on the current rating and hover rating
+  }, [bookId, userId]);
+  
   const renderStars = () => {
     let stars = [];
     for (let i = 1; i <= totalStars; i++) {
@@ -56,7 +59,7 @@ const StarRating = ({ totalStars = 5, bookTitle }) => {
             cursor: isRatingFrozen ? "pointer" : "pointer",
             color: i <= (hoverRating || rating) ? "gold" : "gray",
             fontSize: "24px",
-            transition: "color 0.2s", // Smooth transition for color change
+            transition: "color 0.2s", 
           }}
           onMouseEnter={() => !isRatingFrozen && setHoverRating(i)}
           onMouseLeave={() => !isRatingFrozen && setHoverRating(null)}

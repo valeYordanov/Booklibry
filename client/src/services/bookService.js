@@ -1,26 +1,11 @@
-import {
-  ref,
-  get,
-  set,
-  update,
-  remove,
-  push,
-  query,
-  orderByChild,
-  limitToLast,
-} from "firebase/database";
-import { db } from "../firebase/firebaseConfig";
+import axios from "axios";
 
 const BookService = {
-  getAll: async (collectionName) => {
+  getAll: async () => {
     try {
-      const dbRef = ref(db, collectionName);
-      const snapshot = await get(dbRef);
-      if (snapshot.exists()) {
-        return snapshot.val();
-      } else {
-        return [];
-      }
+      const response = await axios.get(`http://localhost:5000/api/books`);
+
+      return response.data;
     } catch (error) {
       throw new Error("Error getting data: " + error.message);
     }
@@ -28,93 +13,92 @@ const BookService = {
 
   getOne: async (bookId) => {
     try {
-      const dbRef = ref(db, `books/${bookId}`);
-
-      const snapshot = await get(dbRef);
-
-      if (snapshot.exists()) {
-        return snapshot.val();
-      } else {
-        return [];
-      }
+      const response = await axios.get(
+        `http://localhost:5000/api/books/${bookId}`
+      );
+      return response.data;
     } catch (error) {
-      throw new Error("Error getting data: " + error.massage);
+      throw new Error("Error fetching book: " + error.message);
     }
   },
 
   fetchRecentBooks: async () => {
     try {
-      const dbRef = ref(db, "books");
-      const recentBooksQuery = query(
-        dbRef,
-        orderByChild("timestamp"),
-        limitToLast(3)
+      const response = await axios.get(
+        `http://localhost:5000/api/books/recent`
       );
-      const snapshot = await get(recentBooksQuery);
 
-      if (snapshot.exists()) {
-        return snapshot.val();
-      } else {
-        return [];
-      }
+      return response.data;
     } catch (error) {
-      console.error("Error fetching recent books:", error);
+      throw new Error("Error getting data: " + error.message);
     }
   },
 
-  rentBook: async (userId, book, bookId) => {
+  rentBook: async (bookId, userId) => {
     try {
-      const userRentBookRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
-
-      await set(userRentBookRef, { ...book, isRented: true });
+      const response = await axios.post(
+        `http://localhost:5000/api/books/rent`,
+        {
+          bookId,
+          userId,
+        }
+      );
+      return response.data;
     } catch (error) {
-      console.log(error);
+      throw new Error("Error getting data: " + error.message);
     }
   },
 
   getRentedBooks: async (userId) => {
     try {
-      const dbRef = ref(db, `users/${userId}/rentedBooks`);
-      const snapshot = await get(dbRef);
-      if (snapshot.exists()) {
-        return snapshot.val();
-      } else {
-        return [];
-      }
+      const response = await axios.get(
+        `http://localhost:5000/api/users/${userId}/books`
+      );
+      return response.data;
     } catch (error) {
       console.log(error);
     }
   },
 
-  create: async (collectionName, newData, userId) => {
+  create: async (newData, userId) => {
     try {
-      const dbRef = ref(db, collectionName);
-      const newRef = push(dbRef);
-      const timestamp = Date.now();
-      const dataWithUserIdAndTimestamp = { ...newData, userId, timestamp };
+      const response = await axios.post(`http://localhost:5000/api/books`, {
+        ...newData,
+        userId,
+      });
 
-      await set(newRef, dataWithUserIdAndTimestamp);
-      return { id: newRef.key, ...dataWithUserIdAndTimestamp };
+      return response.data;
     } catch (error) {
       throw new Error("Error adding data: " + error.message);
     }
   },
 
-  updateBook: async (collectionName, id, updatedData) => {
+  updateBook: async (id, updatedData) => {
     try {
-      const dbRef = ref(db, `${collectionName}/${id}`);
-      await update(dbRef, updatedData);
-      return { id, ...updatedData };
+      const response = await axios.patch(
+        `http://localhost:5000/api/books/${id}`,
+        {
+          ...updatedData,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
     } catch (error) {
       throw new Error("Error updating data: " + error.message);
     }
   },
 
-  delete: async (collectionName, id) => {
+  delete: async (id) => {
     try {
-      const dbRef = ref(db, `${collectionName}/${id}`);
-      await remove(dbRef);
-      return id;
+      const response = await axios.delete(
+        `http://localhost:5000/api/books/${id}`
+      );
+
+      return response.data;
     } catch (error) {
       throw new Error("Error deleting data: " + error.message);
     }
@@ -122,8 +106,10 @@ const BookService = {
 
   returnRentedBook: async (userId, bookId) => {
     try {
-      const dbRef = ref(db, `users/${userId}/rentedBooks/${bookId}`);
-      await remove(dbRef);
+      const response = await axios.delete(
+        `http://localhost:5000/api/users/${userId}/books/${bookId}`
+      );
+      return response.data;
     } catch (error) {
       console.log(error);
     }

@@ -1,9 +1,9 @@
 export const handleFirebaseError = (error) => {
-  switch (error.code) {
+  switch (error.response.status) {
     case "auth/invalid-email":
       return "Invalid email address.";
-    case "auth/email-already-in-use":
-      return "Email already in use.";
+    case 422:
+      return ;
     case "auth/user-not-found":
       return "User not found.";
     case "auth/wrong-password":

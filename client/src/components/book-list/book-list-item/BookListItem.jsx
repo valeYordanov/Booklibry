@@ -6,7 +6,7 @@ export default function BookListItem({
 
   
     // eslint-disable-next-line react/prop-types
-    id,
+    _id,
     title,
     author,
     img,
@@ -24,7 +24,7 @@ export default function BookListItem({
 
         {!isRented ? (<p className="can-rent">Available</p>) : <p className="can-rent">Rented!</p>}
         <p>{author}</p>
-        <Link to={`/books/${id}`}>Get Now</Link>
+        <Link to={`/books/${_id}`}>Get Now</Link>
       </div>
     </div>
   );

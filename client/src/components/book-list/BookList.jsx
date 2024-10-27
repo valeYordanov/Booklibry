@@ -20,13 +20,9 @@ export default function BookList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await BookService.getAll(collectionName);
+        const result = await BookService.getAll();
 
-        setBook(
-          result
-            ? Object.entries(result).map(([id, value]) => ({ id, ...value }))
-            : []
-        );
+        setBook(result)
       } catch (error) {
         console.error(error);
       }
@@ -77,7 +73,7 @@ export default function BookList() {
                   </p>
                 ) : (
                   filteredBooks.map((book) => (
-                    <BookListItem key={book.id} {...book} />
+                    <BookListItem key={book._id} {...book} />
                   ))
                 )}
               </div>

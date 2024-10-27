@@ -21,11 +21,7 @@ export default function UserProfile() {
 
         const userBooks = await BookService.getRentedBooks(userId);
 
-        setRentedBooks(
-          userBooks
-            ? Object.entries(userBooks).map(([id, value]) => ({ id, ...value }))
-            : []
-        );
+        setRentedBooks(userBooks.books);
 
         setUser(userResult);
       } catch (error) {
@@ -43,12 +39,8 @@ export default function UserProfile() {
     await BookService.returnRentedBook(userId, bookId);
 
     setRentedBooks((rentedBooks) =>
-      rentedBooks.filter(({ id }) => id !== bookId)
+      rentedBooks.filter(({ _id }) => _id !== bookId)
     );
-
-    await BookService.updateBook("books", bookId, {
-      isRented: false,
-    });
   };
 
   return (
@@ -76,7 +68,6 @@ export default function UserProfile() {
             <p>
               <strong>Telephone:</strong> {user.tel}
             </p>
-            
           </div>
           <div className="books-rented">
             <h2>Books Rented</h2>
@@ -90,7 +81,7 @@ export default function UserProfile() {
             <ul className="rented-books-list">
               {rentedBooks.map((book) => (
                 <RentedBookListItem
-                  key={book.id}
+                  key={book._id}
                   {...book}
                   returnBookHandler={returnBookHandler}
                 />

@@ -71,20 +71,20 @@ export default function Register() {
     setApiError("");
     if (Object.keys(newErrors).length === 0) {
       try {
-        const { email, password, ...additionalData } = formData;
-        const user = await register(email, password, additionalData);
+        const user = await register(formData);
 
         changeAuthState({
-          uid: user.uid,
+          uid: user.userId,
           email: user.email,
-          username:user.username
+          
+          username: user.username,
         });
 
-        localStorage.setItem("token", user.token);
+        localStorage.setItem("authToken", user.token);
         navigate("/");
       } catch (error) {
         setApiError(error.message);
-        console.log(apiError);
+        
       }
     }
   };
