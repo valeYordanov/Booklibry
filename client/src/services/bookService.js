@@ -60,16 +60,17 @@ const BookService = {
     }
   },
 
-  create: async (newData, userId) => {
+  create: async (formData,userId) => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/books`, {
-        ...newData,
-        userId,
+      formData.append('userId', userId);
+      const response = await axios.post("http://localhost:5000/api/books", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
-
-      return response.data;
+      return response.data; // Returns the created book data
     } catch (error) {
-      throw new Error("Error adding data: " + error.message);
+      console.log(error);
     }
   },
 

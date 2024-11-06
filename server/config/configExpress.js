@@ -8,7 +8,7 @@ function configExpress(app) {
   app.use(cookieParser(secret));
 
   app.use(session());
-  app.use(express.urlencoded({ extended: true }));
+  app.use(express.urlencoded({limit:Infinity,extended: true }));
 }
 
 module.exports = { configExpress };

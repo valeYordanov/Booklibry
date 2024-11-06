@@ -19,6 +19,7 @@ import AuthGuard from "./components/guards/AuthGuard";
 import ErrorBoundary from "./components/error-boundary/ErrorBoundary";
 import NotFound from "./components/not-found/NotFound";
 import AuthRedirect from "./components/guards/AuthRedirect";
+import BookContent from "./components/user/user-profile/book-page-by-page/BookContent";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
                   path="/user-profile/:userId/edit"
                   element={<EditUser />}
                 />
+                <Route path="/user-profile/:userId/:bookId" element={<BookContent  />} />
               </Route>
 
               <Route path="*" element={<NotFound />} />

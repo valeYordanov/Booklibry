@@ -1,51 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&family=Ga+Maamli&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&family=Ga+Maamli&display=swap");
 
-
-
-.welcome-msg{
-    
-    background-image: url(../../assets/istockphoto-949118068-612x612.jpg);
-    background-position: bottom;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    padding: 10em;
-    
-    
-    
+.welcome-msg {
+  background-image: url(../../assets/istockphoto-949118068-612x612.jpg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  padding: 10em;
 }
 
-.welcome-msg h2{
-    color: #fff;
-    
-    font-size: 70px;
-    font-weight: 300;
+.welcome-msg h2 {
+  color: #fff;
+
+  font-size: 70px;
+  font-weight: 300;
 }
 
-.welcome-msg .first{
-    font-family: Playwrite CZ;
-    color:   #898ed3;
-    
+.welcome-msg .first {
+  font-family: Playwrite CZ;
+  color: #9296da;
 }
 
 .welcome-msg p {
-    color: #fff;
-    font-family: Bodoni Moda SC;
-    font-size: 30px;
-    font-weight: 300;
-    padding-bottom: 4em;
+  color: #fff;
+  font-family: Bodoni Moda SC;
+  font-size: 30px;
+  font-weight: 300;
+  padding-bottom: 4em;
 }
 
+.welcome-msg .second {
+  font-family: Bodoni Moda SC;
+  font-weight: bold;
 
+  color: #fff;
 
-.welcome-msg .second{
-    font-family: Bodoni Moda SC;
-    font-weight: bold;
-    
-    color:#fff;
-    
-    font-size: 30px;
-    
-    
+  font-size: 30px;
+}
+
+@media (max-width: 800px) {
+  .welcome-msg {
+    padding: 4em;
+
+    background-image: none;
+  }
+
+  .welcome-msg h2 {
+    font-size: 40px;
+  }
+
+  .welcome-msg .first {
+    color: rgb(38, 43, 41);
+    padding-bottom: 1em;
+    display: block;
+  }
+
+  .welcome-msg p {
+    font-size: 20px;
+    padding-bottom: 2em;
+    color: #898ed3;
+  }
+
+  .welcome-msg .second {
+    font-size: 20px;
+    color: #898ed3;
+  }
 }

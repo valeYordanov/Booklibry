@@ -14,6 +14,7 @@ export default function BookList() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const collectionName = "books";
 
@@ -22,7 +23,7 @@ export default function BookList() {
       try {
         const result = await BookService.getAll();
 
-        setBook(result)
+        setBook(result);
       } catch (error) {
         console.error(error);
       }
@@ -31,6 +32,17 @@ export default function BookList() {
     setTimeout(() => setIsLoading(false), minDuration);
 
     fetchData();
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [collectionName]);
 
   useEffect(() => {
@@ -51,8 +63,8 @@ export default function BookList() {
 
   return (
     <section id="book-list">
-      {isLoading ? (
-        <Spinner />
+      {isLoading && windowWidth > 800 ? (
+        <Spinner className="spinner" />
       ) : (
         <>
           <h1>Browse Books</h1>

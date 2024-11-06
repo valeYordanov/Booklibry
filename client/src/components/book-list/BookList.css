@@ -52,7 +52,7 @@
 
 .overlay h3 {
   font-weight: 500;
-  
+
   margin-top: 20%;
   font-family: bebas neue;
   font-size: 30px;
@@ -115,3 +115,56 @@
   font-size: 30px;
   color: #887f7f;
 }
+
+@media (max-width: 800px) {
+  .wrapper {
+    padding: 10px; 
+  }
+
+  #card-area {
+    padding: 30px 0; 
+  }
+
+  .box-area {
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(150px, 1fr)
+    ); 
+    gap: 20px; 
+  }
+
+  .box-container img {
+    height: 250px; 
+  }
+
+  .overlay h3 {
+    font-size: 20px; 
+  }
+
+  #book-list h1 {
+    font-size: 30px; 
+  }
+
+  .can-rent {
+    font-size: 16px; 
+  }
+
+  .search-container {
+    margin-left: 0; 
+    text-align: center; 
+  }
+
+  .no-book {
+    margin-left: 0; 
+    width: auto; 
+    font-size: 24px; 
+    text-align: center; 
+  }
+
+  .spinner {
+    display: none;
+  }
+}
+
+
+

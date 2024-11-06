@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
+import { Link } from "react-router-dom";
 export default function RentedBookListItem({
   // eslint-disable-next-line react/prop-types
   _id,
   title,
   author,
   img,
+  owner,
   returnBookHandler,
 }) {
   return (
@@ -20,6 +22,7 @@ export default function RentedBookListItem({
           <button onClick={() => returnBookHandler(_id)} className="return-btn">
             Return
           </button>
+          <Link className="read-btn" to={`/user-profile/${owner}/${_id}`}>Read</Link>
         </div>
       </div>
     </li>

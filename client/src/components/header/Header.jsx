@@ -1,6 +1,8 @@
 import { useContext } from "react";
-import { logout } from "../../services/authService";
+
 import "./Header.css";
+
+
 
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/authContext";

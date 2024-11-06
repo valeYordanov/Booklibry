@@ -1,56 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&family=Ga+Maamli&display=swap');
-.site-header{
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2em;
-    background-color:  #898ed3;
-    
-    
-}
-nav ul{
-    display: flex;
-    
-    
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&family=Ga+Maamli&display=swap");
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2em;
+  background-color: #898ed3;
 }
 
-.site-title h1 a{
-    font-family: "Ga Maamli", sans-serif;
-    color: #fff;
+nav ul {
+  display: flex;
+  justify-content: center;
 }
 
-ul{
-    list-style: none;
+.site-title h1 a {
+  font-family: "Ga Maamli", sans-serif;
+  color: #fff;
 }
 
-nav ul li a{
-    list-style: none;
-    padding: 1em;
-    color: #fff;
-    font-weight: bold;
-    transition: all 0.3s;
-    text-decoration: none;
-
+ul {
+  list-style: none;
 }
 
-nav ul li a:hover{
-    color: rgb(211, 197, 127);
+nav ul li a {
+  list-style: none;
+  padding: 1em;
+  color: #fff;
+  font-weight: bold;
+  transition: all 0.3s;
+  text-decoration: none;
 }
 
-.user-profile{
-    display: flex;
-    flex-direction: column
+nav ul li a:hover {
+  color: rgb(211, 197, 127);
 }
 
-.welcoming-msg{
-    color: black;
-    background-color: white;
-    padding: 0 1em;
-    border-radius: 5px;
-    font-size: 18px;
+.user-profile {
+  display: flex;
+  flex-direction: column;
 }
 
-.email-span{
-    color: #898ed3;
+.welcoming-msg {
+  color: black;
+  background-color: white;
+  padding: 0 1em;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.email-span {
+  color: #898ed3;
+}
+
+@media (max-width: 800px) {
+  .site-header {
+    flex-direction: column; 
+    align-items: flex-start; 
+    padding: 1em; 
+  }
+
+  nav ul {
+    flex-direction: column; 
+    width: 100%; 
+  }
+
+  nav ul li {
+    margin: 0.5em 0;
+  }
+
+  nav ul li a {
+    padding: 0.5em 0; 
+    text-align: center; 
+    margin: 2em 0;
+  }
+
+  .welcoming-msg {
+    font-size: 16px; 
+  }
+  .user-profile {
+    align-items: center; 
+  }
 }

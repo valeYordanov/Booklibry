@@ -4,7 +4,7 @@ import { register } from "../../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../../contexts/authContext";
 
-// import {ToasterContainer} from 'react-toastify'
+
 
 export default function Register() {
   const [formData, setFormData] = useState({

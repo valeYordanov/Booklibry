@@ -43,3 +43,30 @@
   font-weight: bold;
   padding-bottom: 1em;
 }
+
+@media (max-width: 800px) {
+  .recent-container {
+    padding: 10px;
+  }
+
+  .recent-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    margin-left: 0;
+  }
+
+  .book-img {
+    width: 180px;
+  }
+
+  .book-card {
+    width: auto;
+
+    margin: 0 0;
+
+    margin-bottom: 3em;
+  }
+
+  .date-recent {
+    font-size: 16px;
+  }
+}

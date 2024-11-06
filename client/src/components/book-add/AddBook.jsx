@@ -14,6 +14,7 @@ export default function AddBook() {
     pages: "",
     summary: "",
     isRented: false,
+    file: null
   });
 
   const { authState } = useContext(AuthContext);
@@ -21,10 +22,10 @@ export default function AddBook() {
   const [errors, setErrors] = useState({});
 
   const handleOnChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, files } = e.target;
     setFormValues((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: type === 'file' ? files[0] : value,
     }));
 
     setErrors((prevErrors) => ({
@@ -44,6 +45,7 @@ export default function AddBook() {
       newErrors.pages = "Valid number of pages is required!";
 
     if (!formValues.summary) newErrors.summary = "Summary is required!";
+    if (!formValues.file) newErrors.file = "Book's content is required!";
 
     return newErrors;
   };
@@ -54,14 +56,27 @@ export default function AddBook() {
     e.preventDefault();
     const newErrors = validate();
     setErrors(newErrors);
-    try {
-      if (Object.keys(newErrors).length === 0) {
-        await BookService.create(formValues, authState.uid);
 
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const formData = new FormData();
+        for (const key in formValues) {
+          console.log("Form Values before submission:", formValues);
+          formData.append(key, formValues[key]);
+        }
+
+        await BookService.create(formData,authState.uid);
         navigate("/books");
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        if (error.response && error.response.data.errors) {
+          const backendErrors = error.response.data.errors.reduce((acc, curr) => {
+            acc[curr.path] = curr.msg; // Map error messages to field names
+            return acc;
+          }, {});
+          setErrors(backendErrors);
+        }
       }
-    } catch (error) {
-      console.log(error.massage);
     }
   };
 
@@ -71,7 +86,7 @@ export default function AddBook() {
 
   return (
     <div className="full-form">
-      <div className="form">
+      <div className="form-title">
         <h1>Add to the library</h1>
 
         <form onSubmit={sumbitHandler} className="add-form">
@@ -135,6 +150,15 @@ export default function AddBook() {
             placeholder="Add image URL"
             name="img"
             value={formValues.img}
+            onChange={handleOnChange}
+          />
+
+          <label htmlFor="file">Upload the book's PDF file</label>
+          {errors.file && <span>{errors.file}</span>}
+          <input
+            type="file"
+            name="file"
+            accept="application/pdf"
             onChange={handleOnChange}
           />
 

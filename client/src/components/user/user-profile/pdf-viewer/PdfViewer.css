@@ -1,0 +1,33 @@
+.page-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.prev-page,
+.next-page,
+.goBck {
+  cursor: pointer;
+  border: 1px solid black;
+  padding: 0.5em 2em;
+  border-radius: 10px;
+  margin-bottom: 3em;
+  font-weight: bold;
+  background-color: whitesmoke
+}
+
+.page-count {
+  color: rgb(201, 123, 122);
+  padding-top: 2em;
+}
+
+.goBck {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.5em 4em;
+  background-color: black;
+  color: white;
+  border: 1px solid;
+  border-radius: 15px;
+  margin-left: 30em;
+}

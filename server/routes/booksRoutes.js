@@ -1,19 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const { createBook, getAllBooks, getBookById, getThreeMostRecentBooks, rentBook, fetchedRentedBooks, updateBook, deleteBook, rateBook, getUserRatingForBook } = require('../controllers/bookController'); // Adjust path as needed
+const { createBook, getAllBooks, getBookById, getThreeMostRecentBooks, rentBook, updateBook, deleteBook, rateBook, getUserRatingForBook, getBookContentById } = require('../controllers/bookController'); // Adjust path as needed
 const { validateBook } = require('../middlewares/expressValidatorUtil');
-const cors = require("cors");
 
-// POST route to create a book
-router.post('/', validateBook, createBook);
-router.post('/rent' ,rentBook)
+const upload = require('../config/configFile');
+
+
+
+
+router.post('/',upload.single("file"),validateBook, createBook);
+router.post('/rent', rentBook)
 router.post('/rate', rateBook);
 router.get("/:bookId/rating", getUserRatingForBook);
-router.patch('/:id' , updateBook)
-router.delete('/:id', deleteBook )
-router.get('/' , getAllBooks)
-router.get('/recent' , getThreeMostRecentBooks)
+router.patch('/:id', updateBook)
+router.delete('/:id', deleteBook)
+router.get('/', getAllBooks)
+router.get('/recent', getThreeMostRecentBooks)
 router.get('/:id', getBookById);
+router.get('/file/:bookId',getBookContentById)
 
 
 

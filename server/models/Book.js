@@ -33,6 +33,7 @@ const bookSchema = new Schema({
     type: String,
     required: true,
   },
+  file: { type: String,required:true},
 
   ratings: [
     {
@@ -47,6 +48,7 @@ const bookSchema = new Schema({
     ref: "User",
     required: true,
   },
+
 });
 const Book = model("Book", bookSchema);
 
