@@ -1,11 +1,11 @@
-import { get, ref, update } from "firebase/database";
-import { db } from "../firebase/firebaseConfig";
 import axios from "axios";
 
 export const getUser = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/users/${userId}`)
-    return response.data
+    const response = await axios.get(
+      `http://localhost:5000/api/users/${userId}`
+    );
+    return response.data;
   } catch (error) {
     throw new Error("Error getting data: " + error.massage);
   }
