@@ -4,19 +4,12 @@ const apiUrl = "https://booklibry-server.onrender.com"
 
 export const register = async (userData) => {
   try {
-    const response = await axios.post(
-      `${apiUrl}/api/users/signup`,
-      userData
-    );
+    const response = await axios.post(`${apiUrl}/api/users/signup`, userData);
+    console.log(response.data); // Debugging response data
     return response.data;
   } catch (error) {
-    let errorMessage = "An unexpected error occurred";
-
-    if (error.response) {
-      errorMessage = error.response.data.message || errorMessage;
-    }
-
-    throw new Error(errorMessage);
+    console.error("Error response:", error.response || error.message); // Debugging error details
+    throw new Error(error.response?.data.message || "An unexpected error occurred");
   }
 };
 
