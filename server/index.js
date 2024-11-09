@@ -12,7 +12,8 @@ startApp();
 async function startApp() {
   const app = express();
 
-  app.use(cors());
+  
+  app.use(cors({ origin: 'https://booklibry-client.onrender.com/' }));
   app.use(express.json({limit:Infinity}));
   // app.use(express.static('uploads'));
 
