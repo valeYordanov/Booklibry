@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "https://booklibry-server.onrender"
+const apiUrl = "https://booklibry-server.onrender.com"
 
 export const register = async (userData) => {
  try {
