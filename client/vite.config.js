@@ -10,6 +10,7 @@ export default defineConfig({
     sourcemap: true, // Generate source maps for easier debugging
     rollupOptions: {
       // Add any rollup-specific options here
-    }
+    },
+    chunkSizeWarningLimit: 1000,
   },
 });
