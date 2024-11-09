@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     // You can specify custom build options here if needed
-    outDir: 'dist', // Default build output directory
+    outDir: 'src', // Default build output directory
     sourcemap: true, // Generate source maps for easier debugging
     rollupOptions: {
       // Add any rollup-specific options here
