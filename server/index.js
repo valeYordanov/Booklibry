@@ -13,7 +13,26 @@ async function startApp() {
   const app = express();
 
   
-  app.use(cors({ origin: 'https://booklibry-client.onrender.com/' }));
+  const allowedOrigins = [
+    'https://booklibry-client.onrender.com',
+    // Add any other frontend origins you want to allow
+  ];
+  
+  const corsOptions = {
+    origin: function (origin, callback) {
+      if (allowedOrigins.includes(origin) || !origin) {
+        // Allow all requests from allowedOrigins, or allow requests without origin (e.g., for curl)
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  };
+  
+  // Enable CORS with the specified options
+  app.use(cors(corsOptions));
   app.use(express.json({limit:Infinity}));
   // app.use(express.static('uploads'));
 
