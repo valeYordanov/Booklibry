@@ -61,7 +61,7 @@ export default function AddBook() {
       try {
         const formData = new FormData();
         for (const key in formValues) {
-          console.log("Form Values before submission:", formValues);
+          
           formData.append(key, formValues[key]);
         }
 
