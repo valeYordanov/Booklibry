@@ -14,6 +14,7 @@ export default function Header() {
 
   const { authState, changeAuthStatetoLogout } = useContext(AuthContext);
 
+ 
   const userId = authState.uid;
   const logouthandler = async () => {
     try {
