@@ -36,7 +36,7 @@ const BookContent = () => {
 
   return (
     <div className="book-reader">
-      <PdfViewer bookId={bookId} filePath={bookData.file} />
+      <PdfViewer bookId={bookId} filePath={bookData.fileUrl} />
     </div>
   );
 };
