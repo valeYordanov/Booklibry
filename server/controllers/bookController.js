@@ -15,6 +15,9 @@ const createBook = async (req, res, next) => {
   }
 
   try {
+    // Store the file path (relative to the uploads folder)
+    const filePath = req.file ? `/uploads/${req.file.filename}` : null;
+
     const newBook = new Book({
       author,
       category,
@@ -25,11 +28,16 @@ const createBook = async (req, res, next) => {
       timestamp: new Date(),
       title,
       owner: userId,
-      file: req.file.path,
+      file: filePath,  // Store relative file path
     });
 
     await newBook.save();
-    return res.status(201).json(newBook);
+
+    // Return the new book object, including the full URL to access the file
+    return res.status(201).json({
+      ...newBook.toObject(),
+      fileUrl: `https://booklibry-server.onrender.com${filePath}`,  // Full URL for file access
+    });
   } catch (error) {
     console.error("Error creating book:", error);
     return next(new CustomError("Failed to create book", 500));

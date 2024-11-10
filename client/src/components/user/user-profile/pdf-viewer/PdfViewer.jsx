@@ -21,7 +21,7 @@ const PdfViewer = ({ bookId }) => {
     const fetchEbook = async () => {
       try {
         const response = await axios.get(
-          `https://booklibry-server.onrender.com/api/books/file/${bookId}`,
+          `https://booklibry-server.onrender.com/uploads/${bookId}`,
           { responseType: "blob" }
         );
 

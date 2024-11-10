@@ -34,7 +34,7 @@ async function startApp() {
   // Enable CORS with the specified options
   app.use(cors(corsOptions));
   app.use(express.json({limit:Infinity}));
-  app.use(express.static('uploads'));
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
   app.use("/api/books", booksRoutes);
   
