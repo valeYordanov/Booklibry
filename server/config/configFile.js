@@ -1,16 +1,27 @@
-import { Storage } from '@google-cloud/storage';
-import multer from 'multer';
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
-// Create a new Google Cloud Storage instance
-const storage = new Storage();
+// Configure AWS SDK
+AWS.config.update({
+  region: "eu-north-1", // Set your region
+  accessKeyId: "val",
+  secretAccessKey: "tw|mXE4*",
+});
 
-// Reference your bucket
-const bucket = storage.bucket("booklibry"); // Replace with your bucket name
+const s3 = new AWS.S3();
 
-// Set up Multer to handle file uploads to Google Cloud
-export const multerGoogleStorage = multer({
-  storage: multer.memoryStorage(), // Use memory storage to handle file as buffer
-  limits: { fileSize: 100 * 1024 * 1024 }, // 100MB limit (adjust as needed)
+// Set up multer to use memory storage
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "booklibry", // Replace with your bucket name
+    acl: "public-read", // Set permission (public-read or private)
+    key: function (req, file, cb) {
+      cb(null, `uploads/${Date.now()}_${file.originalname}`); // Create unique file name
+    },
+  }),
+  limits: { fileSize: 100 * 1024 * 1024 }, // File size limit (e.g., 100MB)
   fileFilter: (req, file, cb) => {
     if (file.mimetype !== "application/pdf") {
       return cb(new Error("Only PDF files are allowed!"), false);
@@ -19,16 +30,4 @@ export const multerGoogleStorage = multer({
   },
 });
 
-export const uploadFileToGoogleCloud = async (fileBuffer, fileName) => {
-  // Upload the file buffer to Google Cloud Storage
-  const file = bucket.file(fileName);
-  await file.save(fileBuffer, {
-    metadata: {
-      contentType: "application/pdf", // Set the correct MIME type
-    },
-    public: true, // You can make the file publicly accessible
-  });
-
-  // Return the public URL of the file
-  return `https://storage.googleapis.com/${bucket.name}/${file.name}`;
-};
+module.exports = upload;

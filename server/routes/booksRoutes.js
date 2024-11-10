@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 const { createBook, getAllBooks, getBookById, getThreeMostRecentBooks, rentBook, updateBook, deleteBook, rateBook, getUserRatingForBook, getBookContentById } = require('../controllers/bookController'); // Adjust path as needed
 const { validateBook } = require('../middlewares/expressValidatorUtil');
-const { multerGoogleStorage } = require('../config/configFile');
+const upload = require('../config/configFile');
 
 
 
 
 
 
-router.post('/',multerGoogleStorage.single("file"),validateBook, createBook);
+
+router.post('/',upload.single("file"),validateBook, createBook);
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);
 router.get("/:bookId/rating", getUserRatingForBook);
