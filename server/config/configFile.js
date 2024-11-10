@@ -1,5 +1,5 @@
 import {Storage } from '@google-cloud/storage'
-const multer = require("multer");
+import multer from 'multer';
 
 // Create a new Google Cloud Storage instance
 const storage = new Storage();
