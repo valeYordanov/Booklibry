@@ -1,5 +1,5 @@
-const {Storage} = require('@google-cloud/storage')
-const multer = require("multer")
+import { Storage } from '@google-cloud/storage';
+import multer from 'multer';
 
 // Create a new Google Cloud Storage instance
 const storage = new Storage();
@@ -8,7 +8,7 @@ const storage = new Storage();
 const bucket = storage.bucket("booklibry"); // Replace with your bucket name
 
 // Set up Multer to handle file uploads to Google Cloud
-const multerGoogleStorage = multer({
+export const multerGoogleStorage = multer({
   storage: multer.memoryStorage(), // Use memory storage to handle file as buffer
   limits: { fileSize: 100 * 1024 * 1024 }, // 100MB limit (adjust as needed)
   fileFilter: (req, file, cb) => {
