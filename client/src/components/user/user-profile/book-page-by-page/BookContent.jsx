@@ -18,7 +18,7 @@ const BookContent = () => {
     const fetchBookData = async () => {
       try {
         const response = await axios.get(`https://booklibry-server.onrender.com/api/books/${bookId}`);
-        setBookData(response.data); // Store the book data
+        setBookData(response); // Store the book data
       } catch (error) {
         console.error("Error fetching book data:", error);
       }
