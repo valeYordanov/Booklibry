@@ -1,21 +1,23 @@
-const AWS = require("aws-sdk");
-const multer = require("multer");
-const multerS3 = require("multer-s3");
-require('dotenv').config()
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Configure AWS SDK
-AWS.config.update({
+const s3Client = new S3Client({
   region: "eu-north-1", // Set your region
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+  }
 });
-
-const s3 = new AWS.S3();
 
 // Set up multer to use memory storage
 const upload = multer({
   storage: multerS3({
-    s3: s3,
+    s3: s3Client, // Use the new S3 client from AWS SDK v3
     bucket: "booklibry", // Replace with your bucket name
     acl: "public-read", // Set permission (public-read or private)
     key: function (req, file, cb) {
@@ -31,4 +33,4 @@ const upload = multer({
   },
 });
 
-module.exports = upload;
+export default upload;
