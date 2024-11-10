@@ -4,6 +4,7 @@ const CustomError = require("../util/customError");
 
 const path = require("path");
 const fs = require("fs");
+const { uploadFileToGoogleCloud } = require("../config/configFile");
 
 const createBook = async (req, res, next) => {
   const { author, category, img, pages, summary, title, userId } = req.body;
@@ -14,10 +15,15 @@ const createBook = async (req, res, next) => {
       .json({ message: "User ID is required to create a book" });
   }
 
+  const fileBuffer = req.file.buffer; // File buffer from Multer
+  const fileName = `${Date.now()}_${req.file.originalname}`;
+
+  // Upload the file to Google Cloud Storage
+ 
+
   try {
     // Store the file path (relative to the uploads folder)
-    const filePath = req.file ? `/uploads/${req.file.filename}` : null;
-
+    const fileUrl = await uploadFileToGoogleCloud(fileBuffer, fileName);
     const newBook = new Book({
       author,
       category,
@@ -28,7 +34,7 @@ const createBook = async (req, res, next) => {
       timestamp: new Date(),
       title,
       owner: userId,
-      file: filePath,  // Store relative file path
+      file: fileUrl, // Store relative file path
     });
 
     await newBook.save();
@@ -36,7 +42,7 @@ const createBook = async (req, res, next) => {
     // Return the new book object, including the full URL to access the file
     return res.status(201).json({
       ...newBook.toObject(),
-      fileUrl: `https://booklibry-server.onrender.com${filePath}`,  // Full URL for file access
+      fileUrl, // Full URL for file access
     });
   } catch (error) {
     console.error("Error creating book:", error);
@@ -283,21 +289,19 @@ const getBookContentById = async (req, res, next) => {
     }
 
     const filePath = path.resolve(book.file);
-    
 
     // Check if the file exists
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({ message: "File not found" });
     }
 
-    
     // res.setHeader("Content-Type", "application/pdf");
     // res.setHeader("Content-Disposition", "inline; filename=file.pdf");
     res.sendFile(filePath, (err) => {
-        if (err) {
-            console.error('Error sending file:', err);
-            res.status(500).send('Error sending file');
-        }
+      if (err) {
+        console.error("Error sending file:", err);
+        res.status(500).send("Error sending file");
+      }
     });
   } catch (error) {
     console.error("Server error:", error);
