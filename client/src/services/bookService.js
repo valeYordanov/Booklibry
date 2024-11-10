@@ -62,15 +62,22 @@ const BookService = {
 
   create: async (formData,userId) => {
     try {
+      // Append userId to the formData to be sent with the request
       formData.append('userId', userId);
+  
+      // Send the request to create the book
       const response = await axios.post("https://booklibry-server.onrender.com/api/books", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      return response.data; // Returns the created book data
+  
+      // Return the response data (the created book)
+      return response.data; 
     } catch (error) {
-      console.log(error);
+      console.error("Error creating book:", error);
+      // Optionally, handle the error, e.g., show a message to the user
+      throw new Error("Failed to create book. Please try again later.");
     }
   },
 
