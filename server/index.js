@@ -6,6 +6,7 @@ const { createBook, rentBook } = require("./controllers/bookController");
 const booksRoutes = require("../server/routes/booksRoutes");
 const userRoutes = require("../server/routes/userRoutes");
 const errorHandler = require("./util/error-handler");
+const path = require("path");
 
 const PORT = 5000;
 startApp();
