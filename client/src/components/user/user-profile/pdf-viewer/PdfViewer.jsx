@@ -6,7 +6,7 @@ import "./PdfViewer.css";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../../../contexts/authContext";
 
-const PdfViewer = ({ bookId }) => {
+const PdfViewer = ({ bookId ,filePath }) => {
   const [pdfDoc, setPdfDoc] = useState(null);
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,10 +20,10 @@ const PdfViewer = ({ bookId }) => {
   useEffect(() => {
     const fetchEbook = async () => {
       try {
-        const response = await axios.get(
-          `https://booklibry-server.onrender.com/uploads/${bookId}`,
-          { responseType: "blob" }
-        );
+        // Construct the full URL from the filePath passed in props
+        const fileUrl = `https://booklibry-server.onrender.com${filePath}`;
+        
+        const response = await axios.get(fileUrl, { responseType: "blob" });
 
         const url = URL.createObjectURL(response.data);
 
@@ -43,7 +43,7 @@ const PdfViewer = ({ bookId }) => {
     };
 
     fetchEbook();
-  }, [bookId]);
+  }, [filePath]);
 
   useEffect(() => {
     if (pdfDoc) {
