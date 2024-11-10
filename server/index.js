@@ -44,7 +44,7 @@ async function startApp() {
   configDatabase();
 
   app.listen(PORT, () =>
-    console.log("Server is started on http://localhost:5000")
+    console.log("Server is started on https://booklibry-server.onrender.com")
   );
 
   

@@ -3,7 +3,7 @@ import axios from "axios";
 const BookService = {
   getAll: async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/books`);
+      const response = await axios.get(`https://booklibry-server.onrender.com/api/books`);
 
       return response.data;
     } catch (error) {
@@ -14,7 +14,7 @@ const BookService = {
   getOne: async (bookId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/books/${bookId}`
+        `https://booklibry-server.onrender.com/api/books/${bookId}`
       );
       return response.data;
     } catch (error) {
@@ -25,7 +25,7 @@ const BookService = {
   fetchRecentBooks: async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/books/recent`
+        `https://booklibry-server.onrender.com/api/books/recent`
       );
 
       return response.data;
@@ -37,7 +37,7 @@ const BookService = {
   rentBook: async (bookId, userId) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/books/rent`,
+        `https://booklibry-server.onrender.com/api/books/rent`,
         {
           bookId,
           userId,
@@ -52,7 +52,7 @@ const BookService = {
   getRentedBooks: async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/users/${userId}/books`
+        `https://booklibry-server.onrender.com/api/users/${userId}/books`
       );
       return response.data;
     } catch (error) {
@@ -63,7 +63,7 @@ const BookService = {
   create: async (formData,userId) => {
     try {
       formData.append('userId', userId);
-      const response = await axios.post("http://localhost:5000/api/books", formData, {
+      const response = await axios.post("https://booklibry-server.onrender.com/api/books", formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -77,7 +77,7 @@ const BookService = {
   updateBook: async (id, updatedData) => {
     try {
       const response = await axios.patch(
-        `http://localhost:5000/api/books/${id}`,
+        `https://booklibry-server.onrender.com/api/books/${id}`,
         {
           ...updatedData,
         },
@@ -96,7 +96,7 @@ const BookService = {
   delete: async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/books/${id}`
+        `https://booklibry-server.onrender.com/api/books/${id}`
       );
 
       return response.data;
@@ -108,7 +108,7 @@ const BookService = {
   returnRentedBook: async (userId, bookId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/api/users/${userId}/books/${bookId}`
+        `https://booklibry-server.onrender.com/api/users/${userId}/books/${bookId}`
       );
       return response.data;
     } catch (error) {

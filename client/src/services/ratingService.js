@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const submitRating = async (bookId, userId, rating) => {
   try {
-    const response = await axios.post("http://localhost:5000/api/books/rate", {
+    const response = await axios.post("https://booklibry-server.onrender.com/api/books/rate", {
       bookId,
       userId,
       rating,
@@ -15,7 +15,7 @@ export const submitRating = async (bookId, userId, rating) => {
 export const fetchRatingForBookByUser = async (bookId, userId) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/books/${bookId}/rating`,
+      `https://booklibry-server.onrender.com/api/books/${bookId}/rating`,
       {
         params: { userId },
       }

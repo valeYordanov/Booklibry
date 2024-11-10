@@ -3,7 +3,7 @@ import axios from "axios";
 export const getUser = async (userId) => {
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/users/${userId}`
+      `https://booklibry-server.onrender.com/api/users/${userId}`
     );
     return response.data;
   } catch (error) {
@@ -14,7 +14,7 @@ export const getUser = async (userId) => {
 export const updateUser = async (userId, updatedData, token) => {
   try {
     const response = await axios.put(
-      `http://localhost:5000/api/users/${userId}`,
+      `https://booklibry-server.onrender.com/api/users/${userId}`,
       updatedData,
       {
         headers: {
