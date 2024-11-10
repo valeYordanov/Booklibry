@@ -19,7 +19,7 @@ export default function Header() {
   const logouthandler = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/users/logout",
+        "https://booklibry-server.onrender.com/api/users/logout",
         {},
         {
           headers: {
