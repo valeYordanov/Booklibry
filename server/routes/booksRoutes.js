@@ -10,7 +10,7 @@ const { validateBook } = require('../middlewares/expressValidatorUtil');
 
 
 
-router.post('/',validateBook, createBook);
+router.post('/', createBook);
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);
 router.get("/:bookId/rating", getUserRatingForBook);
