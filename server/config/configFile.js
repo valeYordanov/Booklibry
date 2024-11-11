@@ -1,7 +1,7 @@
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client } from '@aws-sdk/client-s3';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import dotenv from 'dotenv';
+import dotenv, { config } from 'dotenv';
 
 dotenv.config();
 
