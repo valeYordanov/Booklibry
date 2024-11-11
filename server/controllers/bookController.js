@@ -9,9 +9,7 @@ const { default: upload } = require("../config/configFile");
 const createBook = async (req, res, next) => {
   const { author, category, img, pages, summary, title, userId } = req.body;
 
-  if (!userId) {
-    return res.status(400).json({ message: "User ID is required to create a book" });
-  }
+  
 
   // Upload the file to AWS S3
   upload.single("file")(req, res, async (err) => {
