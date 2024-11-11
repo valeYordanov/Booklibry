@@ -4,7 +4,7 @@ const CustomError = require("../util/customError");
 
 const path = require("path");
 const fs = require("fs");
-import upload from "../config/configFile"
+const upload = require("../config/configFile")
 
 const createBook = async (req, res, next) => {
   const { author, category, img, pages, summary, title, userId } = req.body;
