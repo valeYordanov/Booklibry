@@ -10,29 +10,27 @@ const createBook = async (req, res, next) => {
   const { author, category, img, pages, summary, title, userId } = req.body;
 
   if (!userId) {
-    return res
-      .status(400)
-      .json({ message: "User ID is required to create a book" });
+    return res.status(400).json({ message: "User ID is required to create a book" });
   }
 
   // Upload the file to AWS S3
   try {
-    upload.single("file")(req, res, async (err) => {
-      if (err) {
-        return next(new CustomError("Failed to upload file", 500));
-      }
+  upload.single("file")(req, res, async (err) => {
+    if (err) {
+      return next(new CustomError("Failed to upload file", 500));
+    }
 
-      const { file } = req; // Access the uploaded file from the request
+    const { file } = req; // Access the uploaded file from the request
 
-      // Check if the file exists in the request
-      if (!file) {
-        return res.status(400).json({ message: "File is required" });
-      }
+    // Check if the file exists in the request
+    if (!file) {
+      return res.status(400).json({ message: "File is required" });
+    }
 
-      // Get the file URL from the uploaded file in S3
-      const fileUrl = file.location; // `location` is the public URL of the uploaded file
+    // Get the file URL from the uploaded file in S3
+    const fileUrl = file.location;
 
-      // Create a new book object and save it to the database
+    // Create a new book object and save it to the database
       const newBook = new Book({
         author,
         category,
@@ -54,10 +52,10 @@ const createBook = async (req, res, next) => {
         fileUrl, // Full URL for file access
       });
     });
-  } catch (error) {
-    console.error("Error creating book:", error);
-    return next(new CustomError("Failed to create book", 500));
-  }
+    } catch (error) {
+      console.error("Error creating book:", error);
+      return next(new CustomError("Failed to create book", 500));
+    }
 };
 
 const getAllBooks = async (req, res, next) => {
@@ -86,7 +84,7 @@ const getBookById = async (req, res, next) => {
     return next(new CustomError("Failed to fetch book", 500));
   }
 };
-``;
+
 const getThreeMostRecentBooks = async (req, res, next) => {
   try {
     const books = await Book.find().sort({ timestamp: -1 }).limit(3);

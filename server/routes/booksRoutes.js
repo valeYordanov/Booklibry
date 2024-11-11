@@ -10,7 +10,8 @@ const upload = require('../config/configFile');
 
 
 
-router.post('/',upload.single("file"),validateBook, createBook);
+
+router.post('/',validateBook, createBook);
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);
 router.get("/:bookId/rating", getUserRatingForBook);
