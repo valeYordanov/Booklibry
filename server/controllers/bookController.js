@@ -14,7 +14,6 @@ const createBook = async (req, res, next) => {
   }
 
   // Upload the file to AWS S3
-  try {
   upload.single("file")(req, res, async (err) => {
     if (err) {
       return next(new CustomError("Failed to upload file", 500));
@@ -31,6 +30,7 @@ const createBook = async (req, res, next) => {
     const fileUrl = file.location;
 
     // Create a new book object and save it to the database
+    try {
       const newBook = new Book({
         author,
         category,
@@ -51,11 +51,11 @@ const createBook = async (req, res, next) => {
         ...newBook.toObject(),
         fileUrl, // Full URL for file access
       });
-    });
     } catch (error) {
       console.error("Error creating book:", error);
       return next(new CustomError("Failed to create book", 500));
     }
+  });
 };
 
 const getAllBooks = async (req, res, next) => {
