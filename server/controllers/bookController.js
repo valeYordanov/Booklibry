@@ -7,12 +7,12 @@ const fs = require("fs");
 const upload = require("../config/configFile");
 
 const createBook = async (req, res, next) => {
-  const { author, category, img, pages, summary, title, userId,file } = req.body;
+  const { author, category, img, pages, summary, title, userId} = req.body;
 
   // Upload the file to AWS S3
 
   // Check if the file exists in the request
-  if (!file) {
+  if (!req.file) {
     return res.status(400).json({ message: "File is required" });
   }
 
