@@ -12,6 +12,9 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
+
+
+
 // Set up multer to use S3 for storage
 const upload = multer({
   storage: multerS3({
