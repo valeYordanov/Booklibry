@@ -7,7 +7,7 @@ const fs = require("fs");
 const upload = require("../config/configFile");
 
 const createBook = async (req, res, next) => {
-  const { author, category, img, pages, summary, title, userId } = req.body;
+  const { author, category, img, pages, summary, title, userId,file } = req.body;
 
   // Upload the file to AWS S3
 
