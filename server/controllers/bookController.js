@@ -17,7 +17,7 @@ const createBook = async (req, res, next) => {
   }
 
   // Get the file URL from the uploaded file in S3
-  const fileUrl = file.location;
+  const fileUrl = req.file.location;
 
   // Create a new book object and save it to the database
   try {
