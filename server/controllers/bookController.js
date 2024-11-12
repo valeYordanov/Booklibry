@@ -4,56 +4,47 @@ const CustomError = require("../util/customError");
 
 const path = require("path");
 const fs = require("fs");
-const upload = require("../config/configFile")
+const upload = require("../config/configFile");
 
 const createBook = async (req, res, next) => {
   const { author, category, img, pages, summary, title, userId } = req.body;
 
-  
-
   // Upload the file to AWS S3
-  upload.single("file")(req, res, async (err) => {
-    if (err) {
-      return next(new CustomError("Failed to upload file", 500));
-    }
 
-    const { file } = req; // Access the uploaded file from the request
+  // Check if the file exists in the request
+  if (!file) {
+    return res.status(400).json({ message: "File is required" });
+  }
 
-    // Check if the file exists in the request
-    if (!file) {
-      return res.status(400).json({ message: "File is required" });
-    }
+  // Get the file URL from the uploaded file in S3
+  const fileUrl = file.location;
 
-    // Get the file URL from the uploaded file in S3
-    const fileUrl = file.location;
+  // Create a new book object and save it to the database
+  try {
+    const newBook = new Book({
+      author,
+      category,
+      img,
+      isRented: false,
+      pages,
+      summary,
+      timestamp: new Date(),
+      title,
+      owner: userId,
+      file: fileUrl, // Store the URL of the file
+    });
 
-    // Create a new book object and save it to the database
-    try {
-      const newBook = new Book({
-        author,
-        category,
-        img,
-        isRented: false,
-        pages,
-        summary,
-        timestamp: new Date(),
-        title,
-        owner: userId,
-        file: fileUrl, // Store the URL of the file
-      });
+    await newBook.save();
 
-      await newBook.save();
-
-      // Return the new book object, including the file URL
-      return res.status(201).json({
-        ...newBook.toObject(),
-        fileUrl, // Full URL for file access
-      });
-    } catch (error) {
-      console.error("Error creating book:", error);
-      return next(new CustomError("Failed to create book", 500));
-    }
-  });
+    // Return the new book object, including the file URL
+    return res.status(201).json({
+      ...newBook.toObject(),
+      fileUrl, // Full URL for file access
+    });
+  } catch (error) {
+    console.error("Error creating book:", error);
+    return next(new CustomError("Failed to create book", 500));
+  }
 };
 
 const getAllBooks = async (req, res, next) => {
