@@ -20,6 +20,7 @@ const createBook = async (req, res, next) => {
 
     // Ensure the file path is provided
     if (!file) {
+      console.error("No file path provided:", fields);
       return res.status(400).json({ message: "File path is required" });
     }
 
