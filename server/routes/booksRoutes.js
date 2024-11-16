@@ -12,6 +12,7 @@ const upload = require('../config/configFile');
 
 
 router.post('/' , createBook);
+router.post("/presigned-url", upload.generatePresignedUrl);
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);
 router.get("/:bookId/rating", getUserRatingForBook);

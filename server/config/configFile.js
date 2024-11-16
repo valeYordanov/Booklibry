@@ -11,23 +11,30 @@ const s3 = new AWS.S3({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-// Set up multer to use S3 for storage
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: "booklibry",
+const generatePresignedUrl = async (req, res, next) => {
+  const { fileName, fileType } = req.body;
 
-    key: function (req, file, cb) {
-      cb(null, `uploads/${Date.now()}_${file.originalname}`);
-    },
-  }),
-  limits: { fileSize: 100 * 1024 * 1024 }, // 100MB
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype !== "application/pdf") {
-      return cb(new Error("Only PDF files are allowed!"), false);
-    }
-    cb(null, true);
-  },
-});
+  if (!fileName || !fileType) {
+    return res.status(400).json({ message: "File name and type are required" });
+  }
 
-module.exports = upload;
+  const params = {
+    Bucket: "booklibry",
+    Key: `uploads/${Date.now()}_${fileName}`,
+    ContentType: fileType,
+    Expires: 60, // URL expiration time in seconds
+  };
+
+  try {
+    const uploadUrl = await s3.getSignedUrlPromise("putObject", params);
+    return res.status(200).json({
+      uploadUrl,
+      filePath: params.Key, // Path to save in the database
+    });
+  } catch (error) {
+    console.error("Error generating pre-signed URL:", error);
+    return next(new Error("Failed to generate pre-signed URL"));
+  }
+};
+
+module.exports = { generatePresignedUrl };

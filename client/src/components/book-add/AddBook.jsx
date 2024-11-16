@@ -14,7 +14,7 @@ export default function AddBook() {
     pages: "",
     summary: "",
     isRented: false,
-    file: null
+    file: null,
   });
 
   const { authState } = useContext(AuthContext);
@@ -25,7 +25,7 @@ export default function AddBook() {
     const { name, value, type, files } = e.target;
     setFormValues((prevData) => ({
       ...prevData,
-      [name]: type === 'file' ? files[0] : value,
+      [name]: type === "file" ? files[0] : value,
     }));
 
     setErrors((prevErrors) => ({
@@ -54,6 +54,7 @@ export default function AddBook() {
 
   const sumbitHandler = async (e) => {
     e.preventDefault();
+
     const newErrors = validate();
     setErrors(newErrors);
 
@@ -64,7 +65,7 @@ export default function AddBook() {
           serverUrl: "https://booklibry-server.onrender.com/api/books",
           file: formValues.file, // Assuming formValues.file contains the file object
         });
-  
+
         // Include the file path in the book data
         const bookData = {
           ...formValues,
@@ -73,18 +74,10 @@ export default function AddBook() {
 
         // Send book data to create the book
         await BookService.create(bookData, authState.uid);
-  
-        await BookService.create(formData,authState.uid);
+
         navigate("/books");
       } catch (error) {
         console.error("Error submitting form:", error);
-        if (error.response && error.response.data.errors) {
-          const backendErrors = error.response.data.errors.reduce((acc, curr) => {
-            acc[curr.path] = curr.msg; // Map error messages to field names
-            return acc;
-          }, {});
-          setErrors(backendErrors);
-        }
       }
     }
   };

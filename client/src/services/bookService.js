@@ -3,7 +3,9 @@ import axios from "axios";
 const BookService = {
   getAll: async () => {
     try {
-      const response = await axios.get(`https://booklibry-server.onrender.com/api/books`);
+      const response = await axios.get(
+        `https://booklibry-server.onrender.com/api/books`
+      );
 
       return response.data;
     } catch (error) {
@@ -60,20 +62,24 @@ const BookService = {
     }
   },
 
-  create: async (formData,userId) => {
+  create: async (formData, userId) => {
     try {
       // Append userId to the formData to be sent with the request
-      formData.append('userId', userId);
-  
+      formData.append("userId", userId);
+
       // Send the request to create the book
-      const response = await axios.post("https://booklibry-server.onrender.com/api/books", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-  
+      const response = await axios.post(
+        "https://booklibry-server.onrender.com/api/books",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       // Return the response data (the created book)
-      return response.data; 
+      return response.data;
     } catch (error) {
       console.error("Error creating book:", error);
       // Optionally, handle the error, e.g., show a message to the user
@@ -81,6 +87,30 @@ const BookService = {
     }
   },
 
+  uploadFileWithPresignedUrl: async ({ serverUrl, file }) => {
+    try {
+      // Request pre-signed URL from the server
+      const response = await axios.post(`${serverUrl}/presigned-url`, {
+        fileName: file.name,
+        fileType: file.type,
+      });
+
+      const { uploadUrl, filePath } = response.data;
+
+      // Upload the file directly to S3 using the pre-signed URL
+      await axios.put(uploadUrl, file, {
+        headers: {
+          "Content-Type": file.type,
+        },
+      });
+
+      // Return the file path to store in the database
+      return filePath;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      throw new Error("Failed to upload file");
+    }
+  },
   updateBook: async (id, updatedData) => {
     try {
       const response = await axios.patch(
