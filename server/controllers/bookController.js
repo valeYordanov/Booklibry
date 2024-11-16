@@ -22,12 +22,13 @@ const createBook = async (req, res, next) => {
     if (!file) {
       console.error("No file path provided:", fields);
       return res.status(400).json({ message: "File path is required" });
-    }
 
-    try {
-      console.log("Parsed fields:", fields); // Debug the fields object
+      
+    }
+    console.log("Parsed fields:", fields); // Debug the fields object
       console.log("Parsed files:", files); // Debug the files object
 
+    try {
       const newBook = new Book({
         author,
         category,
