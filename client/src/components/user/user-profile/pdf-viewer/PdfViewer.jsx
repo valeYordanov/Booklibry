@@ -20,8 +20,7 @@ const PdfViewer = ({ bookId, filePath }) => {
   useEffect(() => {
     const fetchEbook = async () => {
       try {
-        // Construct the full URL from the filePath passed in props
-        // The fileUrl should now be like this:
+        
         const fileUrl = `https://booklibry.s3.eu-north-1.amazonaws.com/${filePath}`;
 
         const response = await axios.get(fileUrl, { responseType: "blob" });
