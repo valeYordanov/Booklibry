@@ -15,6 +15,7 @@ const createBook = async (req, res, next) => {
   }
 
   try {
+    console.log("Request body:", req.body);
     const newBook = new Book({
       author,
       category,
