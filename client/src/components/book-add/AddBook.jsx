@@ -54,31 +54,56 @@ export default function AddBook() {
 
   const sumbitHandler = async (e) => {
     e.preventDefault();
-
+  
     const newErrors = validate();
     setErrors(newErrors);
-
+  
     if (Object.keys(newErrors).length === 0) {
       try {
-        // Upload file and get the file path
+        console.log("Uploading file...");
+  
+        // Step 1: Upload file and get the file path
         const filePath = await BookService.uploadFileWithPresignedUrl({
           serverUrl: "https://booklibry-server.onrender.com/api/books",
           file: formValues.file, // Assuming formValues.file contains the file object
         });
-
-        // Include the file path in the book data
-        const bookData = {
-          ...formValues,
-          file: filePath,
-        };
-
-        // Send book data to create the book
-        await BookService.create(bookData, authState.uid);
-
+  
+        console.log("File uploaded successfully:", filePath);
+  
+        // Step 2: Create FormData and include the book data
+        const formData = new FormData();
+        for (const key in formValues) {
+          if (key !== "file") {
+            formData.append(key, formValues[key]);
+          }
+        }
+  
+        // Append the uploaded file path to FormData
+        formData.append("file", filePath);
+  
+        console.log("Sending book data to the server...");
+  
+        // Step 3: Send FormData to create the book
+        await BookService.create(formData, authState.uid);
+  
+        console.log("Book created successfully!");
+  
+        // Redirect after success
         navigate("/books");
       } catch (error) {
         console.error("Error submitting form:", error);
+  
+        // Optionally, handle backend validation errors
+        if (error.response?.data?.errors) {
+          const backendErrors = error.response.data.errors.reduce((acc, curr) => {
+            acc[curr.path] = curr.msg;
+            return acc;
+          }, {});
+          setErrors(backendErrors);
+        }
       }
+    } else {
+      console.log("Validation errors:", newErrors);
     }
   };
 
