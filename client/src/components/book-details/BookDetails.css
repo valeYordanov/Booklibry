@@ -8,16 +8,15 @@
   gap: 12em;
 }
 
-.book{
+.book {
   display: flex;
   flex-direction: column;
-  
 }
 
-.resume{
+.resume {
   color: #616bd4;
 }
-.pages-count{
+.pages-count {
   display: block;
   color: #616bd4;
   font-size: 25px;
@@ -89,4 +88,45 @@ h3 {
   text-align: center;
   padding-top: 0.8em;
   cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .book-container {
+    flex-direction: column; /* Stack items vertically */
+    margin-left: 1em;
+    margin-right: 1em;
+    gap: 2em;
+  }
+
+  .book-img img {
+    width: 100%; /* Make the image responsive */
+    justify-content: center;
+    align-items: center;
+    max-width: 300px; /* Set a reasonable max width */
+    margin: 0 auto; /* Center the image */
+  }
+
+  .book-details {
+    align-items: flex-start; /* Align details to the start */
+  }
+
+  .special-buttons {
+    flex-direction: column; /* Stack buttons vertically */
+    margin-left: 0;
+    gap: 1em;
+  }
+
+  .rent-btn,
+  .delete-btn,
+  .edit-btn,
+  .go-back-btn {
+    width: 100%; /* Make buttons take full width */
+    max-width: 250px; /* Set a max width */
+    margin: 0 auto; /* Center the buttons */
+  }
+
+  .pages-count {
+    font-size: 20px; /* Adjust font size for smaller screens */
+    padding-top: 1em;
+  }
 }

@@ -13,7 +13,7 @@
   border-radius: 10px;
   margin-bottom: 3em;
   font-weight: bold;
-  background-color: whitesmoke
+  background-color: whitesmoke;
 }
 
 .page-count {
@@ -30,4 +30,31 @@
   border: 1px solid;
   border-radius: 15px;
   margin-left: 30em;
+}
+
+@media (max-width: 700px) {
+  canvas {
+    width: 100%; /* Reduce width on smaller screens */
+    height: auto; /* Maintain aspect ratio */
+    padding: 2em;
+  }
+  .page-controls {
+    display: flex;
+
+    justify-content: center;
+  }
+
+  .prev-page,
+  .next-page {
+    width: 80px;
+    padding: 10px;
+  }
+  .goBck {
+    margin-left: 10em;
+  }
+
+  .page-count {
+    padding: 0;
+    
+  }
 }

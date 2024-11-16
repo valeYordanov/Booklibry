@@ -94,5 +94,6 @@ span {
   }
   .buttons {
     margin: 1em 0;
+    width: 300px;
   }
 }
