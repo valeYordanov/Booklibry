@@ -11,7 +11,7 @@ const upload = require('../config/configFile');
 
 
 router.post("/presigned-url", upload.generatePresignedUrl);
-router.post('/' , createBook);
+router.post('/' ,validateBook, createBook);
 
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);
