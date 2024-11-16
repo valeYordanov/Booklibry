@@ -16,7 +16,7 @@ const createBook = async (req, res, next) => {
     }
 
     const { author, category, img, pages, summary, title, userId } = fields;
-    const file = fields.file;  // This should be the file URL/path you sent from the client
+    const file = files.file || fields.file; // This should be the file URL/path you sent from the client
 
     // Ensure the file path is provided
     if (!file) {
