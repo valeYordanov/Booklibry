@@ -7,8 +7,14 @@
     box-sizing: border-box;
 }
 
+.box{
+    position: relative;
+    min-height: 100vh;
+}
 
-
+main{
+    padding-bottom: 2.5rem;
+}
 
 body{
     background-color: #fff;

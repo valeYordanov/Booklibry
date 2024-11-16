@@ -53,8 +53,9 @@ function App() {
             </Routes>
           </ErrorBoundary>
 
-          <Footer />
+          
         </main>
+        <Footer/>
       </div>
     </AuthProvider>
   );
