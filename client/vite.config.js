@@ -5,8 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    chunkSizeWarningLimit: 4000,
+    // You can specify custom build options here if needed
+    outDir: 'src', // Default build output directory
+    sourcemap: true, // Generate source maps for easier debugging
+    rollupOptions: {
+      // Add any rollup-specific options here
+    },
+    chunkSizeWarningLimit: 1000,
   },
-  sourcemap: true,
-  outDir: 'src',
 });
