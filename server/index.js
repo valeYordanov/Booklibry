@@ -16,6 +16,7 @@ async function startApp() {
   const allowedOrigins = [
     "https://booklibry-client.onrender.com",
     "http://localhost:5173",
+    "https://keen-praline-526296.netlify.app",
 
     // Add any other frontend origins you want to allow
   ];
