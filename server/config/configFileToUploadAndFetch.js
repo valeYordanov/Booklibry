@@ -37,4 +37,28 @@ const generatePresignedUrl = async (req, res, next) => {
   }
 };
 
-module.exports = { generatePresignedUrl };
+const generatePresignedDownloadUrl = async (req, res, next) => {
+  const { filePath } = req.query; // File path should be provided in the query parameter
+
+  if (!filePath) {
+    return res.status(400).json({ message: "File path is required" });
+  }
+
+  const params = {
+    Bucket: "booklibry", // Your S3 bucket name
+    Key: filePath, // The file path in S3 (e.g., uploads/123456789_filename.jpg)
+    Expires: 60, // URL expiration time in seconds (You can increase this as needed)
+  };
+
+  try {
+    const downloadUrl = await s3.getSignedUrlPromise("getObject", params);
+    return res.status(200).json({
+      downloadUrl, // The pre-signed URL for downloading the file
+    });
+  } catch (error) {
+    console.error("Error generating pre-signed URL:", error);
+    return next(new Error("Failed to generate pre-signed URL"));
+  }
+};
+
+module.exports = { generatePresignedUrl,generatePresignedDownloadUrl };

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { createBook, getAllBooks, getBookById, getThreeMostRecentBooks, rentBook, updateBook, deleteBook, rateBook, getUserRatingForBook, getBookContentById } = require('../controllers/bookController'); // Adjust path as needed
 const { validateBook } = require('../middlewares/expressValidatorUtil');
-const upload = require('../config/configFile');
+const upload = require('../config/configFileToUploadAndFetch');
 
 
 

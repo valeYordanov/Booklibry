@@ -5,13 +5,12 @@ const formidable = require("formidable");
 
 const path = require("path");
 const fs = require("fs");
-const upload = require("../config/configFile");
+const upload = require("../config/configFileToUploadAndFetch");
 
 const createBook = async (req, res, next) => {
   const form = new formidable.IncomingForm();
   form.parse(req, async (err, fields, files) => {
     if (err) {
-      console.error("Error parsing form:", err);
       return res.status(400).json({ message: "Error parsing form" });
     }
 
@@ -23,15 +22,10 @@ const createBook = async (req, res, next) => {
     const summary = fields.summary[0];
     const file = fields.file[0];
     const userId = fields.userId[0];
-    // This should be the file URL/path you sent from the client
 
-    // Ensure the file path is provided
     if (!file) {
-      console.error("No file path provided:", fields);
       return res.status(400).json({ message: "File path is required" });
     }
-    console.log("Parsed fields:", fields); // Debug the fields object
-    console.log("Parsed files:", files); // Debug the files object
 
     try {
       const newBook = new Book({
@@ -44,14 +38,13 @@ const createBook = async (req, res, next) => {
         timestamp: new Date(),
         title,
         owner: userId,
-        file, // Save the file path (URL)
+        file, 
       });
 
       await newBook.save();
 
       return res.status(201).json(newBook);
     } catch (error) {
-      console.error("Error creating book:", error);
       return next(new CustomError("Failed to create book", 500));
     }
   });
@@ -302,8 +295,7 @@ const getBookContentById = async (req, res, next) => {
       return res.status(404).json({ message: "File not found" });
     }
 
-    // res.setHeader("Content-Type", "application/pdf");
-    // res.setHeader("Content-Disposition", "inline; filename=file.pdf");
+    
     res.sendFile(filePath, (err) => {
       if (err) {
         console.error("Error sending file:", err);
