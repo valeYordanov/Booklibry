@@ -6,7 +6,7 @@ import "./PdfViewer.css";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../../../contexts/authContext";
 
-const PdfViewer = ({ bookId ,filePath }) => {
+const PdfViewer = ({ bookId, filePath }) => {
   const [pdfDoc, setPdfDoc] = useState(null);
   const [numPages, setNumPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,8 +21,9 @@ const PdfViewer = ({ bookId ,filePath }) => {
     const fetchEbook = async () => {
       try {
         // Construct the full URL from the filePath passed in props
-        const fileUrl = `https://booklibry-server.onrender.com${filePath}`;
-        
+        // The fileUrl should now be like this:
+        const fileUrl = `https://booklibry-server.onrender.com/api/files/presigned-download-url?filePath=${filePath}`;
+
         const response = await axios.get(fileUrl, { responseType: "blob" });
 
         const url = URL.createObjectURL(response.data);
