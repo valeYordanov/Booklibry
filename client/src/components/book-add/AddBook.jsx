@@ -61,7 +61,7 @@ export default function AddBook() {
     if (Object.keys(newErrors).length === 0) {
       try {
         // Upload file and get the file path
-        const filePath = await uploadFileWithPresignedUrl({
+        const filePath = await BookService.uploadFileWithPresignedUrl({
           serverUrl: "https://booklibry-server.onrender.com/api/books",
           file: formValues.file, // Assuming formValues.file contains the file object
         });
