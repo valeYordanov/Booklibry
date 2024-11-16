@@ -16,6 +16,9 @@ async function startApp() {
   
   const allowedOrigins = [
     'https://booklibry-client.onrender.com',
+    'https://localhost:5173',
+    
+
     // Add any other frontend origins you want to allow
   ];
   
