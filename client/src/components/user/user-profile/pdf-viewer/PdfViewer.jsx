@@ -22,7 +22,7 @@ const PdfViewer = ({ bookId, filePath }) => {
       try {
         // Construct the full URL from the filePath passed in props
         // The fileUrl should now be like this:
-        const fileUrl = `https://booklibry-server.onrender.com/api/files/presigned-download-url?filePath=${filePath}`;
+        const fileUrl = `https://booklibry.s3.eu-north-1.amazonaws.com/${filePath}`;
 
         const response = await axios.get(fileUrl, { responseType: "blob" });
 
