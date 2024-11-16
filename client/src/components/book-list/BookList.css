@@ -84,7 +84,7 @@
   margin-top: 0.5em;
   font-size: 45px;
   color: 
-  rgb(219, 172, 172);
+  rgb(214, 203, 203);
 }
 
 .can-rent {
@@ -132,6 +132,7 @@
       minmax(150px, 1fr)
     ); 
     gap: 20px; 
+    margin-bottom: 2em;
   }
 
   .box-container img {
