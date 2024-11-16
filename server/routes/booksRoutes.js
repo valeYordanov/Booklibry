@@ -11,7 +11,7 @@ const upload = require('../config/configFile');
 
 
 
-router.post('/' ,upload.single("file"), createBook);
+router.post('/' , createBook);
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);
 router.get("/:bookId/rating", getUserRatingForBook);

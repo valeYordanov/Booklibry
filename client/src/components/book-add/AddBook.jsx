@@ -59,12 +59,21 @@ export default function AddBook() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const formData = new FormData();
-        for (const key in formValues) {
-          
-          formData.append(key, formValues[key]);
-        }
+        // Upload file and get the file path
+        const filePath = await uploadFileWithPresignedUrl({
+          serverUrl: "https://booklibry-server.onrender.com/api/books",
+          file: formValues.file, // Assuming formValues.file contains the file object
+        });
+  
+        // Include the file path in the book data
+        const bookData = {
+          ...formValues,
+          file: filePath,
+        };
 
+        // Send book data to create the book
+        await BookService.create(bookData, authState.uid);
+  
         await BookService.create(formData,authState.uid);
         navigate("/books");
       } catch (error) {

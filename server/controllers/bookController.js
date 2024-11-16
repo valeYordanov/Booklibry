@@ -7,19 +7,13 @@ const fs = require("fs");
 const upload = require("../config/configFile");
 
 const createBook = async (req, res, next) => {
-  const { author, category, img, pages, summary, title, userId} = req.body;
+  const { author, category, img, pages, summary, title, userId, file } = req.body;
 
-  // Upload the file to AWS S3
-
-  // Check if the file exists in the request
-  if (!req.file) {
-    return res.status(400).json({ message: "File is required" });
+  // Ensure the file path is provided
+  if (!file) {
+    return res.status(400).json({ message: "File path is required" });
   }
 
-  // Get the file URL from the uploaded file in S3
-  const fileUrl = req.file.location;
-
-  // Create a new book object and save it to the database
   try {
     const newBook = new Book({
       author,
@@ -31,16 +25,12 @@ const createBook = async (req, res, next) => {
       timestamp: new Date(),
       title,
       owner: userId,
-      file: fileUrl, // Store the URL of the file
+      file, // Save the file path
     });
 
     await newBook.save();
 
-    // Return the new book object, including the file URL
-    return res.status(201).json({
-      ...newBook.toObject(),
-      fileUrl, // Full URL for file access
-    });
+    return res.status(201).json(newBook);
   } catch (error) {
     console.error("Error creating book:", error);
     return next(new CustomError("Failed to create book", 500));
