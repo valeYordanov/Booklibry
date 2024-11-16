@@ -13,35 +13,34 @@ startApp();
 async function startApp() {
   const app = express();
 
-  
   const allowedOrigins = [
-    'https://booklibry-client.onrender.com',
-    'https://localhost:5173',
-    
+    "https://booklibry-client.onrender.com",
+    "http://localhost:5173",
 
     // Add any other frontend origins you want to allow
   ];
-  
+
   const corsOptions = {
     origin: function (origin, callback) {
       if (allowedOrigins.includes(origin) || !origin) {
         // Allow all requests from allowedOrigins, or allow requests without origin (e.g., for curl)
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error("Not allowed by CORS"));
       }
     },
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   };
-  
+
   // Enable CORS with the specified options
   app.use(cors(corsOptions));
-  app.use(express.json({limit:Infinity}));
-  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+  app.options("*", cors(corsOptions));
+  app.use(express.json({ limit: Infinity }));
+  app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
   app.use("/api/books", booksRoutes);
-  
+
   app.use("/api/users", userRoutes);
   app.use(errorHandler);
   configExpress(app);
@@ -50,6 +49,4 @@ async function startApp() {
   app.listen(PORT, () =>
     console.log("Server is started on https://booklibry-server.onrender.com")
   );
-
-  
 }
