@@ -14,7 +14,7 @@ const BookContent = () => {
   
   const [bookData, setBookData] = useState(null);
   
-  // Fetch book data on mount
+ 
   useEffect(() => {
     const fetchBookData = async () => {
       try {
@@ -31,7 +31,7 @@ const BookContent = () => {
   }, [bookId]);
 
   if (!bookData) {
-    return (<Spinner/>) // Or a loading spinner, depending on your preference
+    return (<Spinner/>) 
   }
 
   return (

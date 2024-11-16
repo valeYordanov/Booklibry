@@ -70,7 +70,6 @@ export default function AddBook() {
   
         console.log("File uploaded successfully:", filePath);
   
-        // Step 2: Create FormData and include the book data
         const formData = new FormData();
         for (const key in formValues) {
           if (key !== "file") {
@@ -78,7 +77,6 @@ export default function AddBook() {
           }
         }
   
-        // Append the uploaded file path to FormData
         formData.append("file", filePath);
   
         console.log("Sending book data to the server...");
