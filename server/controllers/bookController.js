@@ -15,18 +15,23 @@ const createBook = async (req, res, next) => {
       return res.status(400).json({ message: "Error parsing form" });
     }
 
-    const { author, category, img, pages, summary, title, userId } = fields;
-    const file = files.file || fields.file; // This should be the file URL/path you sent from the client
+    const title = fields.title[0];
+    const author = fields.author[0];
+    const category = fields.category[0];
+    const img = fields.img[0];
+    const pages = Number(fields.pages[0]);
+    const summary = fields.summary[0];
+    const file = fields.file[0];
+    const userId = fields.userId[0];
+    // This should be the file URL/path you sent from the client
 
     // Ensure the file path is provided
     if (!file) {
       console.error("No file path provided:", fields);
       return res.status(400).json({ message: "File path is required" });
-
-      
     }
     console.log("Parsed fields:", fields); // Debug the fields object
-      console.log("Parsed files:", files); // Debug the files object
+    console.log("Parsed files:", files); // Debug the files object
 
     try {
       const newBook = new Book({
