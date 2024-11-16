@@ -1,41 +1,53 @@
 const { Book } = require("../models/Book");
 const User = require("../models/User");
 const CustomError = require("../util/customError");
+const formidable = require("formidable");
 
 const path = require("path");
 const fs = require("fs");
 const upload = require("../config/configFile");
 
 const createBook = async (req, res, next) => {
-  const { author, category, img, pages, summary, title, userId, file } = req.body;
+  const form = new formidable.IncomingForm();
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      console.error("Error parsing form:", err);
+      return res.status(400).json({ message: "Error parsing form" });
+    }
 
-  // Ensure the file path is provided
-  if (!file) {
-    return res.status(400).json({ message: "File path is required" });
-  }
+    const { author, category, img, pages, summary, title, userId } = fields;
+    const file = fields.file;  // This should be the file URL/path you sent from the client
 
-  try {
-    console.log("Request body:", req.body);
-    const newBook = new Book({
-      author,
-      category,
-      img,
-      isRented: false,
-      pages,
-      summary,
-      timestamp: new Date(),
-      title,
-      owner: userId,
-      file, // Save the file path
-    });
+    // Ensure the file path is provided
+    if (!file) {
+      return res.status(400).json({ message: "File path is required" });
+    }
 
-    await newBook.save();
+    try {
+      console.log("Parsed fields:", fields); // Debug the fields object
+      console.log("Parsed files:", files); // Debug the files object
 
-    return res.status(201).json(newBook);
-  } catch (error) {
-    console.error("Error creating book:", error);
-    return next(new CustomError("Failed to create book", 500));
-  }
+      const newBook = new Book({
+        author,
+        category,
+        img,
+        isRented: false,
+        pages,
+        summary,
+        timestamp: new Date(),
+        title,
+        owner: userId,
+        file, // Save the file path (URL)
+      });
+
+      await newBook.save();
+
+      return res.status(201).json(newBook);
+    } catch (error) {
+      console.error("Error creating book:", error);
+      return next(new CustomError("Failed to create book", 500));
+    }
+  });
 };
 
 const getAllBooks = async (req, res, next) => {
