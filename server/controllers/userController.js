@@ -47,12 +47,12 @@ const login = async (req, res, next) => {
     console.log("Login attempt with email:", email);
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ success: false, message: "User not found" });
+      return next(new CustomError("User not found!", 401));
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: "Password is not correct!" });
+      return next(new CustomError("Password is not correct", 401));;
     }
 
     const token = createToken(user);
