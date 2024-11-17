@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { createBook, getAllBooks, getBookById, getThreeMostRecentBooks, rentBook, updateBook, deleteBook, rateBook, getUserRatingForBook, getBookContentById } = require('../controllers/bookController'); // Adjust path as needed
-const { validateBook } = require('../middlewares/expressValidatorUtil');
+
 
 const { generatePresignedUrl } = require('../config/configFileToUploadToAWS3');
 
@@ -13,7 +13,7 @@ const { generatePresignedUrl } = require('../config/configFileToUploadToAWS3');
 
 router.post("/presigned-url", generatePresignedUrl);
 
-router.post('/' ,validateBook, createBook);
+router.post('/', createBook);
 
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);
