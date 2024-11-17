@@ -23,6 +23,6 @@ export const login = async (email, password) => {
     return response.data;
   } catch (error) {
     console.error("Login error:", error);
-    throw error;
+    throw new Error(error.response?.data.message || "An unexpected error occurred");
   }
 };
