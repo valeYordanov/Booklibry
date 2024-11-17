@@ -10,7 +10,7 @@ const validateBook = [
   body("summary")
     .isLength({ max: 2000 })
     .withMessage("Summary must be 2000 characters or less"),
-  body('file').notEmpty(),
+  
 
   (req, res, next) => {
     const errors = validationResult(req);
