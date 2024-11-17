@@ -36,7 +36,7 @@ const signUp = async (req, res, next) => {
       username: createdUser.username,
     });
   } catch (error) {
-    return next(error); // Use next for any error
+    return next(error); 
   }
 };
 
@@ -66,7 +66,7 @@ const login = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Login error:", error);
-    return next(error); // Use next for any error
+    return next(error); 
   }
 };
 
@@ -80,7 +80,7 @@ const fetchUserById = async (req, res, next) => {
     return res.status(200).json(user);
   } catch (error) {
     console.error("Error fetching user by ID:", error);
-    return next(error); // Use next for any error
+    return next(error); 
   }
 };
 
@@ -110,7 +110,7 @@ const updateUser = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error updating user:", error);
-    return next(error); // Use next for any error
+    return next(error); 
   }
 };
 

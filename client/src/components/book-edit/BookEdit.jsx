@@ -48,7 +48,6 @@ export default function BookEdit() {
   const validate = () => {
     const newErrors = {};
 
-    // Basic validation rules
     if (!book.title) newErrors.title = "Title is required!";
     if (!book.author) newErrors.author = "Author is required!";
     if (!book.category) newErrors.category = "Category is required!";
@@ -60,7 +59,6 @@ export default function BookEdit() {
 
     return newErrors;
   };
-  
 
   const submitEditHandler = async (e) => {
     e.preventDefault();
@@ -69,7 +67,7 @@ export default function BookEdit() {
       const newErrors = validate();
       setErrors(newErrors);
       if (Object.keys(newErrors).length === 0) {
-        await BookService.updateBook( bookId, book);
+        await BookService.updateBook(bookId, book);
 
         navigate(`/books/${bookId}`);
       }

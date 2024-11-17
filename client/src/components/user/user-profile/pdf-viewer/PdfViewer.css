@@ -34,8 +34,8 @@
 
 @media (max-width: 700px) {
   canvas {
-    width: 100%; /* Reduce width on smaller screens */
-    height: auto; /* Maintain aspect ratio */
+    width: 100%; 
+    height: auto; 
     padding: 2em;
   }
   .page-controls {

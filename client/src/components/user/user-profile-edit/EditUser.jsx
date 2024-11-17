@@ -53,7 +53,7 @@ export default function EditUser() {
     try {
       const updatedUser = await updateUser(userId, editedUser, authState.token);
 
-      // Store the new token if it's provided
+      
       if (updatedUser.token) {
         localStorage.setItem("authToken", updatedUser.token);
       }

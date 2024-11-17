@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { createBook, getAllBooks, getBookById, getThreeMostRecentBooks, rentBook, updateBook, deleteBook, rateBook, getUserRatingForBook, getBookContentById } = require('../controllers/bookController'); // Adjust path as needed
 const { validateBook } = require('../middlewares/expressValidatorUtil');
-const upload = require('../config/configFileToUploadAndFetch');
+
+const { generatePresignedUrl } = require('../config/configFileToUploadToAWS3');
 
 
 
@@ -10,9 +11,9 @@ const upload = require('../config/configFileToUploadAndFetch');
 
 
 
-router.post("/presigned-url", upload.generatePresignedUrl);
-router.get('/presigned-download-url' , upload.generatePresignedDownloadUrl)
-router.post('/' , createBook);
+router.post("/presigned-url", generatePresignedUrl);
+
+router.post('/' ,validateBook, createBook);
 
 router.post('/rent', rentBook)
 router.post('/rate', rateBook);

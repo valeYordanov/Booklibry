@@ -92,26 +92,26 @@ h3 {
 
 @media (max-width: 700px) {
   .book-container {
-    flex-direction: column; /* Stack items vertically */
+    flex-direction: column; 
     margin-left: 1em;
     margin-right: 1em;
     gap: 2em;
   }
 
   .book-img img {
-    width: 100%; /* Make the image responsive */
+    width: 100%; 
     justify-content: center;
     align-items: center;
-    max-width: 300px; /* Set a reasonable max width */
-    margin: 0 auto; /* Center the image */
+    max-width: 300px; 
+    margin: 0 auto; 
   }
 
   .book-details {
-    align-items: flex-start; /* Align details to the start */
+    align-items: flex-start; 
   }
 
   .special-buttons {
-    flex-direction: column; /* Stack buttons vertically */
+    flex-direction: column; 
     margin-left: 0;
     gap: 1em;
   }
@@ -120,13 +120,13 @@ h3 {
   .delete-btn,
   .edit-btn,
   .go-back-btn {
-    width: 100%; /* Make buttons take full width */
-    max-width: 250px; /* Set a max width */
-    margin: 0 auto; /* Center the buttons */
+    width: 100%; 
+    max-width: 250px; 
+    margin: 0 auto; 
   }
 
   .pages-count {
-    font-size: 20px; /* Adjust font size for smaller screens */
+    font-size: 20px; 
     padding-top: 1em;
   }
 }
