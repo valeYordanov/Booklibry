@@ -20,6 +20,8 @@ Features:
 8.User profile: In the user profile if the user is rented some books they are displayed in the profile as a list,with a counter of how many books are rented.
 
 
+9.You can now read the book after you succesfully rented it in the user profile section
+
 Technical Details:
 
 For the project I used Html & Css almost 80% of the whole project.For the backend I use Firebase realtime database
@@ -37,5 +39,8 @@ Here are some pictures!:
 ![book details rate](https://github.com/user-attachments/assets/52df9aaa-3a9d-461d-8ba8-cb26ba44d0aa)
 ![user profile](https://github.com/user-attachments/assets/b1569639-129a-4d6d-9f9e-53ae42f309a8)
 ![user with book list](https://github.com/user-attachments/assets/537ef8b2-b0fe-4d3e-8a4f-176a5cebce88)
+![Екранна снимка (8)](https://github.com/user-attachments/assets/564bea5d-0562-43da-a123-fefcac529c04)
+![Екранна снимка (9)](https://github.com/user-attachments/assets/f978d0b4-8294-4e21-b5d6-30559d56ca47)
+![Екранна снимка (10)](https://github.com/user-attachments/assets/677b7d85-8f9b-44d8-a7b3-c87040e934ce)
 
 
