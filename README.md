@@ -24,7 +24,17 @@ Features:
 
 Technical Details:
 
-For the project I used Html & Css almost 80% of the whole project.For the backend I use Firebase realtime database
+For the project I used HTML & CSS,Express,MongoDB,for the file storing I am using AWS S3
+
+---FOR TESTING YOU CAN USE FOLLOWING CREDENTIALS!
+
+1. EMAIL : admin@abv.bg
+   PASSWORD: 12345678
+
+2. EMAIL : admin2@abv.bg
+   PASSWORD: 12345678
+
+
 
 
 Here are some pictures!:
